@@ -13,7 +13,6 @@ import com.example.sergey.myvkprogram.view.fragments.AlbumsFragment;
 import com.example.sergey.myvkprogram.view.fragments.FriendsFragment;
 import com.example.sergey.myvkprogram.view.fragments.GroupsFragment;
 import com.example.sergey.myvkprogram.view.fragments.VideosFragment;
-import com.example.sergey.myvkprogram.view.listeners.MainActivityBottomBarTabSelectListener;
 import com.roughike.bottombar.BottomBar;
 
 import java.util.ArrayList;
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initView() {
         bottomBar = findViewById(R.id.bottomBar);
-        bottomBar.setOnTabSelectListener(new MainActivityBottomBarTabSelectListener(presenter));
+        bottomBar.setOnTabSelectListener(tabId -> presenter.onTabSelected(tabId));
     }
 
     private Fragment getFragmentByTabId(@IdRes int tabId) {
