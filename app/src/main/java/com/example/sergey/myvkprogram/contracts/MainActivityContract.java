@@ -8,11 +8,7 @@ import com.example.sergey.myvkprogram.view.interfaces.View;
 public interface MainActivityContract {
 
     interface MainActivityView extends View {
-
-        void updateSelectedTabId(@IdRes int tabId);
-
         void showTab(@IdRes int tabId);
-
     }
 
     interface MainActivityPresenter extends Presenter<MainActivityView> {

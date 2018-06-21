@@ -72,12 +72,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void updateSelectedTabId(@IdRes int tabId) {
-        selectedTabId = tabId;
-    }
-
-    @Override
     public void showTab(@IdRes int tabId) {
+        selectedTabId = tabId;
         showFragment(getFragmentByTabId(tabId));
     }
 

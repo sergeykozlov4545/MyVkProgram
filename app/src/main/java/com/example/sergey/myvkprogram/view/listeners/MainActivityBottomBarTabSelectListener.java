@@ -15,10 +15,6 @@ public class MainActivityBottomBarTabSelectListener implements OnTabSelectListen
 
     @Override
     public void onTabSelected(@IdRes int tabId) {
-        if (presenter.getView() != null) {
-            presenter.getView().updateSelectedTabId(tabId);
-        }
-
         presenter.onTabSelected(tabId);
     }
 }
