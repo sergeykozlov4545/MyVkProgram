@@ -26,8 +26,10 @@ android {
 
 ext.versions = [
         androidSupport: "27.1.1",
-        retrolambda: "3.2.0",
-        bottomBar     : "2.3.1"
+        retrolambda   : "3.2.0",
+        bottomBar     : "2.3.1",
+        retrofit      : "2.4.0",
+        okhttp3       : "3.8.0"
 ]
 
 ext.support = [
@@ -39,6 +41,12 @@ ext.support = [
 ext.retrolambda = "me.tatarka:gradle-retrolambda:$versions.retrolambda"
 
 ext.bottomBar = "com.roughike:bottom-bar:$versions.bottomBar"
+
+ext.retrofit = [
+        retrofit                : "com.squareup.retrofit2:retrofit:$versions.retrofit",
+        gson_converter          : "com.squareup.retrofit2:converter-gson:$versions.retrofit",
+        http_logging_interceptor: "com.squareup.okhttp3:logging-interceptor:$versions.okhttp3"
+]
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -53,4 +61,9 @@ dependencies {
 
     // Bottom bar
     implementation bottomBar
+
+    // retrofit
+    implementation retrofit.retrofit
+    implementation retrofit.gson_converter
+    implementation retrofit.http_logging_interceptor
 }
