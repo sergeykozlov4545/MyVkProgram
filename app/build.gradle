@@ -26,7 +26,8 @@ android {
 
 ext.versions = [
         androidSupport: "27.1.1",
-        retrolambda: "3.2.0"
+        retrolambda: "3.2.0",
+        bottomBar     : "2.3.1"
 ]
 
 ext.support = [
@@ -36,6 +37,8 @@ ext.support = [
 ]
 
 ext.retrolambda = "me.tatarka:gradle-retrolambda:$versions.retrolambda"
+
+ext.bottomBar = "com.roughike:bottom-bar:$versions.bottomBar"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -47,4 +50,7 @@ dependencies {
 
     // retrolambda
     implementation retrolambda
+
+    // Bottom bar
+    implementation bottomBar
 }
