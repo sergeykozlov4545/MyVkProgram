@@ -1,5 +1,7 @@
 package com.example.sergey.myvkprogram.listeners;
 
+import android.support.annotation.IdRes;
+
 import com.example.sergey.myvkprogram.MainActivity;
 import com.roughike.bottombar.OnTabSelectListener;
 
@@ -12,7 +14,7 @@ public class MainActivityBottomBarTabSelectListener implements OnTabSelectListen
     }
 
     @Override
-    public void onTabSelected(int tabId) {
+    public void onTabSelected(@IdRes int tabId) {
         mainActivity.onTabSelected(tabId);
     }
 }
