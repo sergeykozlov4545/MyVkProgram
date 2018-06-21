@@ -1,4 +1,4 @@
-package com.example.sergey.myvkprogram.fragments;
+package com.example.sergey.myvkprogram.view.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
