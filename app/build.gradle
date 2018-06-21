@@ -21,6 +21,7 @@ android {
 
 ext.versions = [
         androidSupport: "27.1.1",
+        retrolambda: "3.2.0",
         bottomBar     : "2.3.1"
 ]
 
@@ -29,6 +30,8 @@ ext.support = [
         support  : "com.android.support:support-v4:$versions.androidSupport",
         design   : "com.android.support:design:$versions.androidSupport"
 ]
+
+ext.retrolambda = "me.tatarka:gradle-retrolambda:$versions.retrolambda"
 
 ext.bottomBar = "com.roughike:bottom-bar:$versions.bottomBar"
 
@@ -39,6 +42,9 @@ dependencies {
     implementation support.appcompat
     implementation support.design
     implementation support.support
+
+    // retrolambda
+    implementation retrolambda
 
     // Bottom bar
     implementation bottomBar
