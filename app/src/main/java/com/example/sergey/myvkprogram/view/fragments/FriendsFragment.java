@@ -10,7 +10,7 @@ import com.example.sergey.myvkprogram.contracts.FriendsFragmentContract;
 import com.example.sergey.myvkprogram.model.pojo.User;
 import com.example.sergey.myvkprogram.model.retrofit.QueryParams.FriendsQueryParams;
 import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants;
-import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.FriendsQueryServiceManager;
+import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.ServiceManager.FriendsQueryServiceManager;
 import com.example.sergey.myvkprogram.presenter.main.FriendsFragmentPresenterImpl;
 
 import java.util.List;

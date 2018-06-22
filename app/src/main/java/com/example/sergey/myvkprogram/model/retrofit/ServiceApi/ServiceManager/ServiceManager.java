@@ -1,4 +1,4 @@
-package com.example.sergey.myvkprogram.model.retrofit.ServiceApi;
+package com.example.sergey.myvkprogram.model.retrofit.ServiceApi.ServiceManager;
 
 public interface ServiceManager {
 

@@ -1,9 +1,11 @@
-package com.example.sergey.myvkprogram.model.retrofit.ServiceApi;
+package com.example.sergey.myvkprogram.model.retrofit.ServiceApi.ServiceManager;
 
 import android.support.annotation.NonNull;
 
 import com.example.sergey.myvkprogram.model.pojo.FriendsResponse;
 import com.example.sergey.myvkprogram.model.retrofit.QueryParams.QueryParams;
+import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants;
+import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.ServiceApi;
 
 import retrofit2.Call;
 import retrofit2.Callback;
