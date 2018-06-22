@@ -21,15 +21,12 @@ public class BaseFragment extends Fragment implements FragmentView {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_base, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_base, container, false);
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+        contentFragment = view.findViewById(R.id.contentFragment);
+        progressBar = view.findViewById(R.id.progress);
 
-        contentFragment = getView().findViewById(R.id.contentFragment);
-        progressBar = getView().findViewById(R.id.progress);
+        return view;
     }
 
     @Override
