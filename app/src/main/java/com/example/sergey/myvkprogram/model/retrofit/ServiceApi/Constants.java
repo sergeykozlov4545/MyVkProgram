@@ -5,7 +5,7 @@ public interface Constants {
     String BASE_URL = "https://api.vk.com/method/";
     int MOCK_USER_ID = 55853071;
 
-    String ACCESS_TOKEN = "43edc10834e31a47bce3f18b3097d4203065154f8543e04dc810d1c71cc75455ca172b1c47989aa42227c";
+    String ACCESS_TOKEN = "1f6891aeb62aad9fc3de3ead3acdb1e44716325bba9d20a5bb50e953f4844a23c8efea9c1ce2b5ae8b28b";
     String API_VERSION = "5.75";
     String ORDER = "name";
 
