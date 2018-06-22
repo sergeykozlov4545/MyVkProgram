@@ -10,4 +10,5 @@ public interface QueryParams {
 
     void addParams(QueryParams queryParams);
 
+    String buildParamsString();
 }
