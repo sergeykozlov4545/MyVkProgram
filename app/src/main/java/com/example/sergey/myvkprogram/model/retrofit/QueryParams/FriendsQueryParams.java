@@ -1,24 +1,31 @@
 package com.example.sergey.myvkprogram.model.retrofit.QueryParams;
 
+import android.support.annotation.NonNull;
+
 public class FriendsQueryParams extends BaseQueryParams {
 
-    public BaseQueryParams setAccessToken(String accessToken) {
+    public FriendsQueryParams setAccessToken(@NonNull String accessToken) {
         addParam("access_token", accessToken);
         return this;
     }
 
-    public BaseQueryParams setVersionApi(String versionApi) {
+    public FriendsQueryParams setVersionApi(@NonNull String versionApi) {
         addParam("v", versionApi);
         return this;
     }
 
-    public BaseQueryParams setOrder(String order) {
+    public FriendsQueryParams setOrder(@NonNull String order) {
         addParam("order", order);
         return this;
     }
 
-    public BaseQueryParams setFields(String fields) {
+    public FriendsQueryParams setFields(@NonNull String fields) {
         addParam("fields", fields);
+        return this;
+    }
+
+    public FriendsQueryParams setUserId(int userId) {
+        addParam("user_ids", String.valueOf(userId));
         return this;
     }
 }

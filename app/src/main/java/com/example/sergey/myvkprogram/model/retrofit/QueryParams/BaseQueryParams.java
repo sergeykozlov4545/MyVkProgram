@@ -26,19 +26,4 @@ public class BaseQueryParams implements QueryParams {
         this.params.putAll(queryParams.getParams());
     }
 
-    @Override
-    public String buildParamsString() {
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, String> param : params.entrySet()) {
-            if (TextUtils.isEmpty(param.getKey())) {
-                continue;
-            }
-            sb.append(sb.length() == 0 ? "?" : "&");
-            sb.append(param.getKey()).append("=");
-            if (!TextUtils.isEmpty(param.getValue())) {
-                sb.append(param.getValue());
-            }
-        }
-        return sb.toString();
-    }
 }
