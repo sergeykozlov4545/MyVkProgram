@@ -1,13 +1,17 @@
 package com.example.sergey.myvkprogram.model.retrofit.QueryParams;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.Map;
 
 public interface QueryParams {
 
+    @NonNull
     Map<String, String> getParams();
 
-    void addParam(String key, String value);
+    void addParam(@NonNull String key, @Nullable String value);
 
-    void addParams(QueryParams queryParams);
+    void addParams(@NonNull QueryParams queryParams);
 
 }

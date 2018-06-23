@@ -2,7 +2,8 @@ package com.example.sergey.myvkprogram.model.retrofit.QueryParams;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
+
+import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +12,12 @@ public class BaseQueryParams implements QueryParams {
 
     private Map<String, String> params = new HashMap<>();
 
+    public BaseQueryParams(@NonNull String accessToken, @NonNull String versionApi) {
+        addParam(Constants.Url.Params.Key.ACCESS_TOKEN, accessToken);
+        addParam(Constants.Url.Params.Key.VERSION_API, versionApi);
+    }
+
+    @NonNull
     @Override
     public Map<String, String> getParams() {
         return params;
@@ -22,7 +29,7 @@ public class BaseQueryParams implements QueryParams {
     }
 
     @Override
-    public void addParams(QueryParams queryParams) {
+    public void addParams(@NonNull QueryParams queryParams) {
         this.params.putAll(queryParams.getParams());
     }
 

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.sergey.myvkprogram.R;
-import com.example.sergey.myvkprogram.model.pojo.User;
+import com.example.sergey.myvkprogram.model.pojo.object.User;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
