@@ -1,6 +1,7 @@
 package com.example.sergey.myvkprogram.view.adapters;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,15 +10,15 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.sergey.myvkprogram.R;
-import com.example.sergey.myvkprogram.model.pojo.object.User;
+import com.example.sergey.myvkprogram.model.pojo.object.Group;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.ViewHolder> {
+public class GroupsListAdapter extends RecyclerView.Adapter<GroupsListAdapter.ViewHolder> {
 
-    private List<User> users = new ArrayList<>();
+    private List<Group> groups = new ArrayList<>();
 
     @NonNull
     @Override
@@ -29,21 +30,21 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (position >= users.size()) {
+        if (position >= groups.size()) {
             return;
         }
 
-        holder.bindViewHolder(users.get(position));
+        holder.bindViewHolder(groups.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return users.size();
+        return groups.size();
     }
 
-    public void updateData(@NonNull List<User> users) {
-        this.users.clear();
-        this.users.addAll(users);
+    public void updateData(@NonNull List<Group> groups) {
+        this.groups.clear();
+        this.groups.addAll(groups);
         notifyDataSetChanged();
     }
 
@@ -61,18 +62,26 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
             subtitle = itemView.findViewById(R.id.subtitle);
         }
 
-        void bindViewHolder(User user) {
-            title.setText(user.getAllName());
-
-            String subtitleText = user.isOnline()
-                    ? itemView.getContext().getString(R.string.fragment_friends_user_online)
-                    : itemView.getContext().getString(R.string.fragment_friends_user_offline);
-            subtitle.setText(subtitleText);
-            subtitle.setVisibility(View.VISIBLE);
-
+        void bindViewHolder(Group group) {
             Glide.with(itemView.getContext())
-                    .load(user.getPhotoUrl())
+                    .load(group.getPhotoUrl())
                     .into(photoView);
+
+            title.setText(group.getName());
+
+            @StringRes int subtitleRes = 0;
+            if (Group.GROUP.equals(group.getType())) {
+                subtitleRes = R.string.fragment_groups_type_group;
+            } else if (Group.PAGE.equals(group.getType())) {
+                subtitleRes = R.string.fragment_groups_type_page;
+            } else if (Group.EVENT.equals(group.getType())) {
+                subtitleRes = R.string.fragment_groups_type_event;
+            }
+
+            if (subtitleRes != 0) {
+                subtitle.setText(itemView.getContext().getString(subtitleRes));
+                subtitle.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

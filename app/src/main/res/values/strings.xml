@@ -9,6 +9,10 @@
     <string name="fragment_friends_user_online">Онлайн</string>
     <string name="fragment_friends_user_offline">Оффлайн</string>
 
+    <string name="fragment_groups_type_group">Группа</string>
+    <string name="fragment_groups_type_page">Страница</string>
+    <string name="fragment_groups_type_event">Событие</string>
+
     <string name="fragment_videos_views">Просмотров &#x2012; %1$s</string>
 
 </resources>
