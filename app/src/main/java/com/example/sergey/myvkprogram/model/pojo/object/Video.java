@@ -13,14 +13,29 @@ public class Video {
     @SerializedName("duration")
     private long duration;
 
-    @SerializedName("photo_130")
-    private String photoUrl;
+    @SerializedName("photo_320")
+    private String smallPhotoUrl;
+
+    @SerializedName("photo_640")
+    private String middlePhotoUrl;
+
+    @SerializedName("photo_800")
+    private String bigPhotoUrl;
 
     @SerializedName("views")
     private int views;
 
     @SerializedName("player")
     private String playerUrl;
+
+    @SerializedName("likes")
+    private Likes likes;
+
+    @SerializedName("comments")
+    private int countComments;
+
+    @SerializedName("reposts")
+    private Reposts reposts;
 
     public long getId() {
         return id;
@@ -34,8 +49,16 @@ public class Video {
         return duration;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public String getSmallPhotoUrl() {
+        return smallPhotoUrl;
+    }
+
+    public String getMiddlePhotoUrl() {
+        return middlePhotoUrl;
+    }
+
+    public String getBigPhotoUrl() {
+        return bigPhotoUrl;
     }
 
     public int getViews() {
@@ -44,5 +67,17 @@ public class Video {
 
     public String getPlayerUrl() {
         return playerUrl;
+    }
+
+    public Likes getLikes() {
+        return likes;
+    }
+
+    public int getCountComments() {
+        return countComments;
+    }
+
+    public Reposts getReposts() {
+        return reposts;
     }
 }

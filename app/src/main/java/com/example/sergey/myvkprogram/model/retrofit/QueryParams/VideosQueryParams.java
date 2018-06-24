@@ -8,6 +8,8 @@ public class VideosQueryParams extends BaseQueryParams {
 
     public VideosQueryParams(@NonNull String accessToken, @NonNull String versionApi) {
         super(accessToken, versionApi);
+
+        addParam(VideosQuery.Key.EXTENDED, VideosQuery.Value.EXTENDED);
     }
 
     public void setOwnerId(int ownerId) {

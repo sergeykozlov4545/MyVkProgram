@@ -50,6 +50,11 @@ public interface Constants {
 
                 interface Key {
                     String OWNER_ID = "owner_id";
+                    String EXTENDED = "extended";
+                }
+
+                interface Value {
+                    String EXTENDED = "1";
                 }
 
             }
