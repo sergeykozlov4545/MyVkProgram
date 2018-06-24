@@ -3,8 +3,9 @@ package com.example.sergey.myvkprogram.presenter.main;
 import android.support.annotation.NonNull;
 
 import com.example.sergey.myvkprogram.contracts.FriendsFragmentContract;
-import com.example.sergey.myvkprogram.model.pojo.FriendsResponse;
-import com.example.sergey.myvkprogram.model.pojo.User;
+import com.example.sergey.myvkprogram.model.pojo.object.User;
+import com.example.sergey.myvkprogram.model.pojo.response.FriendsResponse;
+import com.example.sergey.myvkprogram.model.pojo.response.ResponseImpl;
 import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.ServiceManager.FriendsQueryServiceManager;
 import com.example.sergey.myvkprogram.presenter.base.BasePresenter;
 
@@ -53,12 +54,12 @@ public class FriendsFragmentPresenterImpl
         }
     }
 
-    private class ServiceManagerCallback implements Callback<FriendsResponse> {
+    private class ServiceManagerCallback implements Callback<ResponseImpl<FriendsResponse>> {
 
         @Override
-        public void onResponse(Call<FriendsResponse> call, Response<FriendsResponse> response) {
+        public void onResponse(Call<ResponseImpl<FriendsResponse>> call, Response<ResponseImpl<FriendsResponse>> response) {
             if (response.isSuccessful()) {
-                FriendsResponse friendsResponse = response.body();
+                ResponseImpl<FriendsResponse> friendsResponse = response.body();
                 List<User> friends = friendsResponse.getItems();
 
                 if (friends != null) {
@@ -70,7 +71,7 @@ public class FriendsFragmentPresenterImpl
         }
 
         @Override
-        public void onFailure(Call<FriendsResponse> call, Throwable t) {
+        public void onFailure(Call<ResponseImpl<FriendsResponse>> call, Throwable t) {
             friendsErrorLoaded("Произошла ошибка при выполнении запроса");
         }
     }

@@ -2,7 +2,7 @@ package com.example.sergey.myvkprogram.contracts;
 
 import android.support.annotation.NonNull;
 
-import com.example.sergey.myvkprogram.model.pojo.User;
+import com.example.sergey.myvkprogram.model.pojo.object.User;
 import com.example.sergey.myvkprogram.presenter.base.Presenter;
 import com.example.sergey.myvkprogram.view.interfaces.FragmentView;
 

@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.example.sergey.myvkprogram.R;
 import com.example.sergey.myvkprogram.contracts.FriendsFragmentContract;
-import com.example.sergey.myvkprogram.model.pojo.User;
+import com.example.sergey.myvkprogram.model.pojo.object.User;
 import com.example.sergey.myvkprogram.model.retrofit.QueryParams.FriendsQueryParams;
 import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants;
 import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.ServiceManager.FriendsQueryServiceManager;
@@ -21,6 +21,8 @@ import com.example.sergey.myvkprogram.presenter.main.FriendsFragmentPresenterImp
 import com.example.sergey.myvkprogram.view.adapters.FriendsListAdapter;
 
 import java.util.List;
+
+import static com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants.Url.Params.Value;
 
 public class FriendsFragment extends BaseFragment implements FriendsFragmentContract.FriendsFragmentView {
 
@@ -36,12 +38,9 @@ public class FriendsFragment extends BaseFragment implements FriendsFragmentCont
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FriendsQueryParams params = new FriendsQueryParams()
-                .setAccessToken(Constants.ACCESS_TOKEN)
-                .setVersionApi(Constants.API_VERSION)
-                .setUserId(Constants.MOCK_USER_ID)
-                .setOrder(Constants.ORDER)
-                .setFields(Constants.USER_FIELDS.PHOTO_50);
+        FriendsQueryParams params = new FriendsQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);
+        params.setUserId(Constants.MOCK_USER_ID);
+
         serviceManager = new FriendsQueryServiceManager(params);
         presenter = new FriendsFragmentPresenterImpl(serviceManager);
     }
@@ -68,7 +67,7 @@ public class FriendsFragment extends BaseFragment implements FriendsFragmentCont
     }
 
     @Override
-    public void showFriends(List<User> users) {
+    public void showFriends(@NonNull List<User> users) {
         if (friendsListAdapter != null) {
             friendsListAdapter.updateData(users);
         }
@@ -76,7 +75,7 @@ public class FriendsFragment extends BaseFragment implements FriendsFragmentCont
     }
 
     @Override
-    public void showError(String message) {
+    public void showError(@NonNull String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
