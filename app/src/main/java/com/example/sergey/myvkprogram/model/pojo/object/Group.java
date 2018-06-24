@@ -4,14 +4,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class Group {
 
+    public static final String GROUP = "group";
+    public static final String PAGE = "page";
+    public static final String EVENT = "event";
+
     @SerializedName("id")
     private long id;
 
     @SerializedName("name")
     private String name;
 
-    @SerializedName("sreen_name")
-    private String sreen_name;
+    @SerializedName("type")
+    private String type;
 
     @SerializedName("photo_100")
     private String photoUrl;
@@ -24,8 +28,8 @@ public class Group {
         return name;
     }
 
-    public String getSreen_name() {
-        return sreen_name;
+    public String getType() {
+        return type;
     }
 
     public String getPhotoUrl() {
