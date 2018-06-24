@@ -36,7 +36,8 @@ ext.versions = [
 
 ext.support = [
         appcompat: "com.android.support:appcompat-v7:$versions.androidSupport",
-        support  : "com.android.support:support-v4:$versions.androidSupport",
+        recyclerview   : "com.android.support:recyclerview-v7:$versions.androidSupport",
+        cardview   : "com.android.support:cardview-v7:$versions.androidSupport",
         design   : "com.android.support:design:$versions.androidSupport"
 ]
 
@@ -60,7 +61,8 @@ dependencies {
     // Android support
     implementation support.appcompat
     implementation support.design
-    implementation support.support
+    implementation support.recyclerview
+    implementation support.cardview
 
     // retrolambda
     implementation retrolambda

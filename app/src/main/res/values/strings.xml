@@ -9,4 +9,6 @@
     <string name="fragment_friends_user_online">Онлайн</string>
     <string name="fragment_friends_user_offline">Оффлайн</string>
 
+    <string name="fragment_videos_views">Просмотров &#x2012; %1$s</string>
+
 </resources>
