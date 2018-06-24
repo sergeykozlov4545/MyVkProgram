@@ -12,11 +12,8 @@ import android.widget.Toast;
 
 import com.example.sergey.myvkprogram.R;
 import com.example.sergey.myvkprogram.contracts.VideosFragmentContract;
+import com.example.sergey.myvkprogram.model.managers.DataManager.VideosDataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.Video;
-import com.example.sergey.myvkprogram.model.retrofit.QueryParams.VideosQueryParams;
-import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants;
-import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants.Url.Params.Value;
-import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.ServiceManager.VideosQueryServiceManager;
 import com.example.sergey.myvkprogram.presenter.main.VideosFragmentPresenterImpl;
 import com.example.sergey.myvkprogram.view.adapters.VideosListAdapter;
 
@@ -29,17 +26,13 @@ public class VideosFragment extends BaseFragment implements VideosFragmentContra
     private RecyclerView videosListView;
     private VideosListAdapter videosListAdapter;
 
-    private VideosQueryServiceManager serviceManager;
     private VideosFragmentPresenterImpl presenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        VideosQueryParams params = new VideosQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);
-        params.setOwnerId(Constants.MOCK_USER_ID);
-        serviceManager = new VideosQueryServiceManager(params);
-        presenter = new VideosFragmentPresenterImpl(serviceManager);
+        presenter = new VideosFragmentPresenterImpl(new VideosDataManager());
     }
 
     @Nullable
