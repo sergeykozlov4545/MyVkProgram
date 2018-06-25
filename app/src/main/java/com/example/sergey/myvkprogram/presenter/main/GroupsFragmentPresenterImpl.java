@@ -3,26 +3,21 @@ package com.example.sergey.myvkprogram.presenter.main;
 import android.support.annotation.NonNull;
 
 import com.example.sergey.myvkprogram.contracts.GroupsFragmentContract;
+import com.example.sergey.myvkprogram.model.managers.DataManager.CallbackLoadData;
+import com.example.sergey.myvkprogram.model.managers.DataManager.DataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.Group;
-import com.example.sergey.myvkprogram.model.pojo.response.GroupsResponse;
-import com.example.sergey.myvkprogram.model.pojo.response.ResponseImpl;
-import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.ServiceManager.GroupsQueryServiceManager;
 import com.example.sergey.myvkprogram.presenter.base.BasePresenter;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class GroupsFragmentPresenterImpl
         extends BasePresenter<GroupsFragmentContract.GroupsFragmentView>
         implements GroupsFragmentContract.GroupsFragmentPresenter {
 
-    private GroupsQueryServiceManager serviceManager;
+    private DataManager<Group> dataManager;
 
-    public GroupsFragmentPresenterImpl(GroupsQueryServiceManager serviceManager) {
-        this.serviceManager = serviceManager;
+    public GroupsFragmentPresenterImpl(@NonNull DataManager<Group> dataManager) {
+        this.dataManager = dataManager;
     }
 
     @Override
@@ -31,7 +26,17 @@ public class GroupsFragmentPresenterImpl
             getView().showProgress();
         }
 
-        serviceManager.loadData(new ServiceManagerCallback());
+        dataManager.getData(new CallbackLoadData<Group>() {
+            @Override
+            public void onSuccessful(@NonNull List<Group> data) {
+                groupsLoaded(data);
+            }
+
+            @Override
+            public void onFailure(@NonNull String message) {
+                groupsErrorLoaded(message);
+            }
+        });
     }
 
     @Override
@@ -51,28 +56,6 @@ public class GroupsFragmentPresenterImpl
         if (view != null) {
             view.hideProgress();
             view.showError(message);
-        }
-    }
-
-    private class ServiceManagerCallback implements Callback<ResponseImpl<GroupsResponse>> {
-
-        @Override
-        public void onResponse(Call<ResponseImpl<GroupsResponse>> call, Response<ResponseImpl<GroupsResponse>> response) {
-            if (response.isSuccessful()) {
-                ResponseImpl<GroupsResponse> friendsResponse = response.body();
-                List<Group> groups = friendsResponse.getItems();
-
-                if (groups != null) {
-                    groupsLoaded(groups);
-                }
-            } else {
-                groupsErrorLoaded("Произошла ошибка при выполнении запроса: code = " + response.code());
-            }
-        }
-
-        @Override
-        public void onFailure(Call<ResponseImpl<GroupsResponse>> call, Throwable t) {
-            groupsErrorLoaded("Произошла ошибка при выполнении запроса");
         }
     }
 }

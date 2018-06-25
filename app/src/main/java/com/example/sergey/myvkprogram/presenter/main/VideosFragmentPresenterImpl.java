@@ -3,26 +3,21 @@ package com.example.sergey.myvkprogram.presenter.main;
 import android.support.annotation.NonNull;
 
 import com.example.sergey.myvkprogram.contracts.VideosFragmentContract;
+import com.example.sergey.myvkprogram.model.managers.DataManager.CallbackLoadData;
+import com.example.sergey.myvkprogram.model.managers.DataManager.DataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.Video;
-import com.example.sergey.myvkprogram.model.pojo.response.ResponseImpl;
-import com.example.sergey.myvkprogram.model.pojo.response.VideosResponse;
-import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.ServiceManager.VideosQueryServiceManager;
 import com.example.sergey.myvkprogram.presenter.base.BasePresenter;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class VideosFragmentPresenterImpl
         extends BasePresenter<VideosFragmentContract.VideosFragmentView>
         implements VideosFragmentContract.VideosFragmentPresenter {
 
-    private VideosQueryServiceManager serviceManager;
+    private DataManager<Video> dataManager;
 
-    public VideosFragmentPresenterImpl(VideosQueryServiceManager serviceManager) {
-        this.serviceManager = serviceManager;
+    public VideosFragmentPresenterImpl(@NonNull DataManager<Video> dataManager) {
+        this.dataManager = dataManager;
     }
 
     @Override
@@ -31,7 +26,17 @@ public class VideosFragmentPresenterImpl
             getView().showProgress();
         }
 
-        serviceManager.loadData(new ServiceManagerCallback());
+        dataManager.getData(new CallbackLoadData<Video>() {
+            @Override
+            public void onSuccessful(@NonNull List<Video> data) {
+                videosLoaded(data);
+            }
+
+            @Override
+            public void onFailure(@NonNull String message) {
+                videosErrorLoaded(message);
+            }
+        });
     }
 
     @Override
@@ -51,28 +56,6 @@ public class VideosFragmentPresenterImpl
         if (view != null) {
             view.hideProgress();
             view.showError(message);
-        }
-    }
-
-    private class ServiceManagerCallback implements Callback<ResponseImpl<VideosResponse>> {
-
-        @Override
-        public void onResponse(Call<ResponseImpl<VideosResponse>> call, Response<ResponseImpl<VideosResponse>> response) {
-            if (response.isSuccessful()) {
-                ResponseImpl<VideosResponse> videosResponse = response.body();
-                List<Video> videos = videosResponse.getItems();
-
-                if (videos != null) {
-                    videosLoaded(videos);
-                }
-            } else {
-                videosErrorLoaded("Произошла ошибка при выполнении запроса: code = " + response.code());
-            }
-        }
-
-        @Override
-        public void onFailure(Call<ResponseImpl<VideosResponse>> call, Throwable t) {
-            videosErrorLoaded("Произошла ошибка при выполнении запроса");
         }
     }
 }

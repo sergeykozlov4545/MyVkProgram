@@ -13,20 +13,15 @@ import android.widget.Toast;
 
 import com.example.sergey.myvkprogram.R;
 import com.example.sergey.myvkprogram.contracts.FriendsFragmentContract;
+import com.example.sergey.myvkprogram.model.managers.DataManager.FriendsDataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.User;
-import com.example.sergey.myvkprogram.model.retrofit.QueryParams.FriendsQueryParams;
-import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants;
-import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.ServiceManager.FriendsQueryServiceManager;
 import com.example.sergey.myvkprogram.presenter.main.FriendsFragmentPresenterImpl;
 import com.example.sergey.myvkprogram.view.adapters.FriendsListAdapter;
 
 import java.util.List;
 
-import static com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants.Url.Params.Value;
-
 public class FriendsFragment extends BaseFragment implements FriendsFragmentContract.FriendsFragmentView {
 
-    private FriendsQueryServiceManager serviceManager;
     private FriendsFragmentContract.FriendsFragmentPresenter presenter;
 
     private View content;
@@ -38,11 +33,7 @@ public class FriendsFragment extends BaseFragment implements FriendsFragmentCont
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FriendsQueryParams params = new FriendsQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);
-        params.setUserId(Constants.MOCK_USER_ID);
-
-        serviceManager = new FriendsQueryServiceManager(params);
-        presenter = new FriendsFragmentPresenterImpl(serviceManager);
+        presenter = new FriendsFragmentPresenterImpl(new FriendsDataManager());
     }
 
     @Nullable

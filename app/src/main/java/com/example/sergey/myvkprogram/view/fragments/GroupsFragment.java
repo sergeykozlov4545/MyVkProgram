@@ -13,11 +13,8 @@ import android.widget.Toast;
 
 import com.example.sergey.myvkprogram.R;
 import com.example.sergey.myvkprogram.contracts.GroupsFragmentContract;
+import com.example.sergey.myvkprogram.model.managers.DataManager.GroupsDataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.Group;
-import com.example.sergey.myvkprogram.model.retrofit.QueryParams.GroupsQueryParams;
-import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants;
-import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants.Url.Params.Value;
-import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.ServiceManager.GroupsQueryServiceManager;
 import com.example.sergey.myvkprogram.presenter.main.GroupsFragmentPresenterImpl;
 import com.example.sergey.myvkprogram.view.adapters.GroupsListAdapter;
 
@@ -30,18 +27,13 @@ public class GroupsFragment extends BaseFragment implements GroupsFragmentContra
     private RecyclerView groupsListView;
     private GroupsListAdapter groupsListAdapter;
 
-    private GroupsQueryServiceManager serviceManager;
     private GroupsFragmentContract.GroupsFragmentPresenter presenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        GroupsQueryParams params = new GroupsQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);
-        params.setUserId(Constants.MOCK_USER_ID);
-
-        serviceManager = new GroupsQueryServiceManager(params);
-        presenter = new GroupsFragmentPresenterImpl(serviceManager);
+        presenter = new GroupsFragmentPresenterImpl(new GroupsDataManager());
     }
 
     @Nullable

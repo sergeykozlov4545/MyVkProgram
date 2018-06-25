@@ -1,4 +1,4 @@
-package com.example.sergey.myvkprogram.model.retrofit.ServiceApi.ServiceManager;
+package com.example.sergey.myvkprogram.model.managers.ServiceManager;
 
 import com.example.sergey.myvkprogram.BuildConfig;
 
