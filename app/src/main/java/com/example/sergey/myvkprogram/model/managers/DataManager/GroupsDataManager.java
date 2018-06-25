@@ -2,7 +2,7 @@ package com.example.sergey.myvkprogram.model.managers.DataManager;
 
 import android.support.annotation.NonNull;
 
-import com.example.sergey.myvkprogram.model.managers.ServiceManager.GroupsQueryServiceManager;
+import com.example.sergey.myvkprogram.model.managers.ServiceManager.MainActivity.GroupsServiceManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.RetrofitCallback;
 import com.example.sergey.myvkprogram.model.pojo.object.Group;
 import com.example.sergey.myvkprogram.model.retrofit.QueryParams.GroupsQueryParams;
@@ -16,7 +16,7 @@ public class GroupsDataManager implements DataManager<Group> {
         GroupsQueryParams params = new GroupsQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);
         params.setUserId(Constants.MOCK_USER_ID);
 
-        new GroupsQueryServiceManager(params)
+        new GroupsServiceManager(params)
                 .loadData(new RetrofitCallback<>(callbackLoadData));
     }
 }

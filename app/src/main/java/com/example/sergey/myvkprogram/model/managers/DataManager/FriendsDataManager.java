@@ -2,7 +2,7 @@ package com.example.sergey.myvkprogram.model.managers.DataManager;
 
 import android.support.annotation.NonNull;
 
-import com.example.sergey.myvkprogram.model.managers.ServiceManager.FriendsQueryServiceManager;
+import com.example.sergey.myvkprogram.model.managers.ServiceManager.MainActivity.FriendsServiceManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.RetrofitCallback;
 import com.example.sergey.myvkprogram.model.pojo.object.User;
 import com.example.sergey.myvkprogram.model.retrofit.QueryParams.FriendsQueryParams;
@@ -16,7 +16,7 @@ public class FriendsDataManager implements DataManager<User> {
         FriendsQueryParams params = new FriendsQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);
         params.setUserId(Constants.MOCK_USER_ID);
 
-        new FriendsQueryServiceManager(params)
+        new FriendsServiceManager(params)
                 .loadData(new RetrofitCallback<>(callbackLoadData));
     }
 }
