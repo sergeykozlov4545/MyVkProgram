@@ -3,6 +3,8 @@ package com.example.sergey.myvkprogram.presenter.main;
 import android.support.annotation.NonNull;
 
 import com.example.sergey.myvkprogram.contracts.GroupsFragmentContract;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.CachKey;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.DataManager.CallbackLoadData;
 import com.example.sergey.myvkprogram.model.managers.DataManager.DataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.Group;
@@ -22,21 +24,7 @@ public class GroupsFragmentPresenterImpl
 
     @Override
     public void viewIsReady() {
-        if (getView() != null) {
-            getView().showProgress();
-        }
-
-        dataManager.getData(new CallbackLoadData<Group>() {
-            @Override
-            public void onSuccessful(@NonNull List<Group> data) {
-                groupsLoaded(data);
-            }
-
-            @Override
-            public void onFailure(@NonNull String message) {
-                groupsErrorLoaded(message);
-            }
-        });
+        loadData();
     }
 
     @Override
@@ -57,5 +45,30 @@ public class GroupsFragmentPresenterImpl
             view.hideProgress();
             view.showError(message);
         }
+    }
+
+    private void loadData() {
+        dataManager.getData(new CallbackLoadData<Group>() {
+            @Override
+            public void onStartLoadData() {
+                if (getView() != null) {
+                    getView().showProgress();
+                }
+            }
+
+            @Override
+            public void onSuccessful(@NonNull List<Group> data) {
+                LocalCacheManager.getInstance()
+                        .putBoolean(CachKey.GroupsFragment.FIRST_VISIBLE, false);
+                // TODO: 26.06.18 Сохраняем в кэш
+
+                groupsLoaded(data);
+            }
+
+            @Override
+            public void onFailure(@NonNull String message) {
+                groupsErrorLoaded(message);
+            }
+        });
     }
 }

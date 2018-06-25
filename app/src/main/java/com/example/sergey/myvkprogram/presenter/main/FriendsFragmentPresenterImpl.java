@@ -3,6 +3,8 @@ package com.example.sergey.myvkprogram.presenter.main;
 import android.support.annotation.NonNull;
 
 import com.example.sergey.myvkprogram.contracts.FriendsFragmentContract;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.CachKey;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.DataManager.CallbackLoadData;
 import com.example.sergey.myvkprogram.model.managers.DataManager.DataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.User;
@@ -22,21 +24,7 @@ public class FriendsFragmentPresenterImpl
 
     @Override
     public void viewIsReady() {
-        if (getView() != null) {
-            getView().showProgress();
-        }
-
-        dataManager.getData(new CallbackLoadData<User>() {
-            @Override
-            public void onSuccessful(@NonNull List<User> data) {
-                friendsLoaded(data);
-            }
-
-            @Override
-            public void onFailure(@NonNull String message) {
-                friendsErrorLoaded(message);
-            }
-        });
+        loadData();
     }
 
     @Override
@@ -57,5 +45,30 @@ public class FriendsFragmentPresenterImpl
             view.hideProgress();
             view.showError(message);
         }
+    }
+
+    private void loadData() {
+        dataManager.getData(new CallbackLoadData<User>() {
+            @Override
+            public void onStartLoadData() {
+                if (getView() != null) {
+                    getView().showProgress();
+                }
+            }
+
+            @Override
+            public void onSuccessful(@NonNull List<User> data) {
+                LocalCacheManager.getInstance()
+                        .putBoolean(CachKey.FriendsFragment.FIRST_VISIBLE, false);
+                // TODO: 26.06.18 Сохраняем в кэш
+
+                friendsLoaded(data);
+            }
+
+            @Override
+            public void onFailure(@NonNull String message) {
+                friendsErrorLoaded(message);
+            }
+        });
     }
 }
