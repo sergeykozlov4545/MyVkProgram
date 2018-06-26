@@ -2,8 +2,8 @@ package com.example.sergey.myvkprogram.model.managers.DataManager;
 
 import android.support.annotation.NonNull;
 
-import com.example.sergey.myvkprogram.model.managers.CacheManager.CachKey;
-import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObject;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObjects.CacheKey;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObjects.CacheObject;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.MainActivity.PhotosServiceManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.RetrofitCallback;
@@ -19,14 +19,16 @@ public class PhotosDataManager implements DataManager<Photo> {
 
     @Override
     public void getData(@NonNull CallbackLoadData<Photo> callbackLoadData) {
-        CacheObject<Boolean> cacheObject = LocalCacheManager.getInstance()
-                .get(CachKey.PhotosFragment.FIRST_VISIBLE);
+        CacheObject<Boolean> cacheObject =
+                LocalCacheManager.getInstance()
+                        .get(CacheKey.PhotosFragment.FIRST_VISIBLE);
 
         if (!cacheObject.is(Boolean.class)) {
             loadData(callbackLoadData);
         } else {
-            CacheObject<List<Photo>> dataCacheObject = LocalCacheManager.getInstance()
-                    .get(CachKey.PhotosFragment.ITEMS_DATA);
+            CacheObject<List<Photo>> dataCacheObject =
+                    LocalCacheManager.getInstance()
+                            .get(CacheKey.PhotosFragment.ITEMS_DATA);
 
             if (!dataCacheObject.is(List.class)) {
                 loadData(callbackLoadData);

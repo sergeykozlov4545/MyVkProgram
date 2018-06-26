@@ -3,7 +3,7 @@ package com.example.sergey.myvkprogram.presenter.main;
 import android.support.annotation.NonNull;
 
 import com.example.sergey.myvkprogram.contracts.VideosFragmentContract;
-import com.example.sergey.myvkprogram.model.managers.CacheManager.CachKey;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObjects.CacheKey;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.DataManager.CallbackLoadData;
 import com.example.sergey.myvkprogram.model.managers.DataManager.DataManager;
@@ -59,9 +59,9 @@ public class VideosFragmentPresenterImpl
             @Override
             public void onSuccessful(@NonNull List<Video> data) {
                 LocalCacheManager.getInstance()
-                        .put(CachKey.VideosFragment.FIRST_VISIBLE, Boolean.FALSE);
+                        .put(CacheKey.VideosFragment.FIRST_VISIBLE, Boolean.FALSE);
                 LocalCacheManager.getInstance()
-                        .put(CachKey.VideosFragment.ITEMS_DATA, data);
+                        .put(CacheKey.VideosFragment.ITEMS_DATA, data);
 
                 videosLoaded(data);
             }

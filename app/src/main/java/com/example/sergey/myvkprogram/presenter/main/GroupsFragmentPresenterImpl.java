@@ -3,7 +3,7 @@ package com.example.sergey.myvkprogram.presenter.main;
 import android.support.annotation.NonNull;
 
 import com.example.sergey.myvkprogram.contracts.GroupsFragmentContract;
-import com.example.sergey.myvkprogram.model.managers.CacheManager.CachKey;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObjects.CacheKey;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.DataManager.CallbackLoadData;
 import com.example.sergey.myvkprogram.model.managers.DataManager.DataManager;
@@ -59,9 +59,9 @@ public class GroupsFragmentPresenterImpl
             @Override
             public void onSuccessful(@NonNull List<Group> data) {
                 LocalCacheManager.getInstance()
-                        .put(CachKey.GroupsFragment.FIRST_VISIBLE, Boolean.FALSE);
+                        .put(CacheKey.GroupsFragment.FIRST_VISIBLE, Boolean.FALSE);
                 LocalCacheManager.getInstance()
-                        .put(CachKey.GroupsFragment.ITEMS_DATA, data);
+                        .put(CacheKey.GroupsFragment.ITEMS_DATA, data);
 
                 groupsLoaded(data);
             }

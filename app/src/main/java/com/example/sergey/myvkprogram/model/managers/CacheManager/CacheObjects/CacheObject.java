@@ -1,4 +1,6 @@
-package com.example.sergey.myvkprogram.model.managers.CacheManager;
+package com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObjects;
+
+import android.support.annotation.Nullable;
 
 public class CacheObject<T> {
 
@@ -8,6 +10,7 @@ public class CacheObject<T> {
         this.value = value;
     }
 
+    @Nullable
     public T getValue() {
         return value;
     }
@@ -15,4 +18,5 @@ public class CacheObject<T> {
     public <V> boolean is(Class<V> tClass) {
         return value != null && tClass.isInstance(value);
     }
+
 }

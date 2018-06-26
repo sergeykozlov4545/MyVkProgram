@@ -2,8 +2,8 @@ package com.example.sergey.myvkprogram.model.managers.DataManager;
 
 import android.support.annotation.NonNull;
 
-import com.example.sergey.myvkprogram.model.managers.CacheManager.CachKey;
-import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObject;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObjects.CacheKey;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObjects.CacheObject;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.MainActivity.GroupsServiceManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.RetrofitCallback;
@@ -18,14 +18,16 @@ public class GroupsDataManager implements DataManager<Group> {
 
     @Override
     public void getData(@NonNull CallbackLoadData<Group> callbackLoadData) {
-        CacheObject<Boolean> cacheObject = LocalCacheManager.getInstance()
-                .get(CachKey.GroupsFragment.FIRST_VISIBLE);
+        CacheObject<Boolean> cacheObject =
+                LocalCacheManager.getInstance()
+                        .get(CacheKey.GroupsFragment.FIRST_VISIBLE);
 
         if (!cacheObject.is(Boolean.class)) {
             loadData(callbackLoadData);
         } else {
-            CacheObject<List<Group>> dataCacheObject = LocalCacheManager.getInstance()
-                    .get(CachKey.GroupsFragment.ITEMS_DATA);
+            CacheObject<List<Group>> dataCacheObject =
+                    LocalCacheManager.getInstance()
+                            .get(CacheKey.GroupsFragment.ITEMS_DATA);
 
             if (!dataCacheObject.is(List.class)) {
                 loadData(callbackLoadData);

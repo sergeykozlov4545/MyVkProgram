@@ -2,8 +2,8 @@ package com.example.sergey.myvkprogram.model.managers.DataManager;
 
 import android.support.annotation.NonNull;
 
-import com.example.sergey.myvkprogram.model.managers.CacheManager.CachKey;
-import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObject;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObjects.CacheKey;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObjects.CacheObject;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.MainActivity.VideosServiceManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.RetrofitCallback;
@@ -18,14 +18,16 @@ public class VideosDataManager implements DataManager<Video> {
 
     @Override
     public void getData(@NonNull CallbackLoadData<Video> callbackLoadData) {
-        CacheObject<Boolean> cacheObject = LocalCacheManager.getInstance()
-                .get(CachKey.VideosFragment.FIRST_VISIBLE);
+        CacheObject<Boolean> cacheObject =
+                LocalCacheManager.getInstance()
+                        .get(CacheKey.VideosFragment.FIRST_VISIBLE);
 
         if (!cacheObject.is(Boolean.class)) {
             loadData(callbackLoadData);
         } else {
-            CacheObject<List<Video>> dataCacheObject = LocalCacheManager.getInstance()
-                    .get(CachKey.VideosFragment.ITEMS_DATA);
+            CacheObject<List<Video>> dataCacheObject =
+                    LocalCacheManager.getInstance()
+                            .get(CacheKey.VideosFragment.ITEMS_DATA);
 
             if (!dataCacheObject.is(List.class)) {
                 loadData(callbackLoadData);

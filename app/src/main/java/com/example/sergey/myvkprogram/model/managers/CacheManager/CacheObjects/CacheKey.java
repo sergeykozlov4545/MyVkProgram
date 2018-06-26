@@ -1,6 +1,6 @@
-package com.example.sergey.myvkprogram.model.managers.CacheManager;
+package com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObjects;
 
-public interface CachKey {
+public interface CacheKey {
     interface PhotosFragment {
         String FIRST_VISIBLE = "first_visible_photos_fragment";
         String ITEMS_DATA = "photos_fragment_data";
