@@ -3,6 +3,7 @@ package com.example.sergey.myvkprogram.model.managers.DataManager;
 import android.support.annotation.NonNull;
 
 import com.example.sergey.myvkprogram.model.managers.CacheManager.CachKey;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObject;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.MainActivity.FriendsServiceManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.RetrofitCallback;
@@ -15,10 +16,10 @@ public class FriendsDataManager implements DataManager<User> {
 
     @Override
     public void getData(@NonNull CallbackLoadData<User> callbackLoadData) {
-        boolean firstVisible = LocalCacheManager.getInstance()
-                .getBoolean(CachKey.FriendsFragment.FIRST_VISIBLE, true);
+        CacheObject<Boolean> cacheObject = LocalCacheManager.getInstance()
+                .get(CachKey.FriendsFragment.FIRST_VISIBLE);
 
-        if (firstVisible) {
+        if (!cacheObject.is(Boolean.class)) {
             callbackLoadData.onStartLoadData();
 
             FriendsQueryParams params = new FriendsQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);

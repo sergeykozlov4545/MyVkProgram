@@ -59,7 +59,7 @@ public class GroupsFragmentPresenterImpl
             @Override
             public void onSuccessful(@NonNull List<Group> data) {
                 LocalCacheManager.getInstance()
-                        .putBoolean(CachKey.GroupsFragment.FIRST_VISIBLE, false);
+                        .put(CachKey.GroupsFragment.FIRST_VISIBLE, Boolean.FALSE);
                 // TODO: 26.06.18 Сохраняем в кэш
 
                 groupsLoaded(data);

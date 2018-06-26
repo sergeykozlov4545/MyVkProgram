@@ -3,6 +3,7 @@ package com.example.sergey.myvkprogram.model.managers.DataManager;
 import android.support.annotation.NonNull;
 
 import com.example.sergey.myvkprogram.model.managers.CacheManager.CachKey;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObject;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.MainActivity.VideosServiceManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.RetrofitCallback;
@@ -15,10 +16,10 @@ public class VideosDataManager implements DataManager<Video> {
 
     @Override
     public void getData(@NonNull CallbackLoadData<Video> callbackLoadData) {
-        boolean firstVisible = LocalCacheManager.getInstance()
-                .getBoolean(CachKey.VideosFragment.FIRST_VISIBLE, true);
+        CacheObject<Boolean> cacheObject = LocalCacheManager.getInstance()
+                .get(CachKey.VideosFragment.FIRST_VISIBLE);
 
-        if (firstVisible) {
+        if (!cacheObject.is(Boolean.class)) {
             callbackLoadData.onStartLoadData();
 
             VideosQueryParams params = new VideosQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);
@@ -26,7 +27,7 @@ public class VideosDataManager implements DataManager<Video> {
 
             new VideosServiceManager(params)
                     .loadData(new RetrofitCallback<>(callbackLoadData));
-        }  else {
+        } else {
             // TODO: 26.06.18 Берем из кеша
         }
     }

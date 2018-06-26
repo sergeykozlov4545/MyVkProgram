@@ -59,7 +59,7 @@ public class FriendsFragmentPresenterImpl
             @Override
             public void onSuccessful(@NonNull List<User> data) {
                 LocalCacheManager.getInstance()
-                        .putBoolean(CachKey.FriendsFragment.FIRST_VISIBLE, false);
+                        .put(CachKey.FriendsFragment.FIRST_VISIBLE, Boolean.FALSE);
                 // TODO: 26.06.18 Сохраняем в кэш
 
                 friendsLoaded(data);

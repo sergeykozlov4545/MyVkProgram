@@ -3,6 +3,7 @@ package com.example.sergey.myvkprogram.model.managers.DataManager;
 import android.support.annotation.NonNull;
 
 import com.example.sergey.myvkprogram.model.managers.CacheManager.CachKey;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObject;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.MainActivity.PhotosServiceManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.RetrofitCallback;
@@ -16,11 +17,10 @@ public class PhotosDataManager implements DataManager<Photo> {
 
     @Override
     public void getData(@NonNull CallbackLoadData<Photo> callbackLoadData) {
+        CacheObject<Boolean> cacheObject = LocalCacheManager.getInstance()
+                .get(CachKey.PhotosFragment.FIRST_VISIBLE);
 
-        boolean firstVisible = LocalCacheManager.getInstance()
-                .getBoolean(CachKey.PhotosFragment.FIRST_VISIBLE, true);
-
-        if (firstVisible) {
+        if (!cacheObject.is(Boolean.class)) {
             callbackLoadData.onStartLoadData();
 
             PhotosQueryParams params = new PhotosQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);

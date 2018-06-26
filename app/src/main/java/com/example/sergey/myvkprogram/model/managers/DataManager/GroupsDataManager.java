@@ -3,6 +3,7 @@ package com.example.sergey.myvkprogram.model.managers.DataManager;
 import android.support.annotation.NonNull;
 
 import com.example.sergey.myvkprogram.model.managers.CacheManager.CachKey;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObject;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.MainActivity.GroupsServiceManager;
 import com.example.sergey.myvkprogram.model.managers.ServiceManager.RetrofitCallback;
@@ -15,10 +16,10 @@ public class GroupsDataManager implements DataManager<Group> {
 
     @Override
     public void getData(@NonNull CallbackLoadData<Group> callbackLoadData) {
-        boolean firstVisible = LocalCacheManager.getInstance()
-                .getBoolean(CachKey.GroupsFragment.FIRST_VISIBLE, true);
+        CacheObject<Boolean> cacheObject = LocalCacheManager.getInstance()
+                .get(CachKey.GroupsFragment.FIRST_VISIBLE);
 
-        if (firstVisible) {
+        if (!cacheObject.is(Boolean.class)) {
             callbackLoadData.onStartLoadData();
 
             GroupsQueryParams params = new GroupsQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);

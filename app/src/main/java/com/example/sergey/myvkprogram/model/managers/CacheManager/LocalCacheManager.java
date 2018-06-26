@@ -10,7 +10,7 @@ public final class LocalCacheManager implements CacheManager {
 
     private volatile static LocalCacheManager instance;
 
-    private Map<String, Object> map;
+    private Map<String, CacheObject> cachedObjects;
 
     public static LocalCacheManager getInstance() {
         if (instance == null) {
@@ -25,57 +25,18 @@ public final class LocalCacheManager implements CacheManager {
     }
 
     private LocalCacheManager() {
-        map = new HashMap<>();
+        cachedObjects = new HashMap<>();
     }
 
     @Override
-    public synchronized void putString(@NonNull String key, @Nullable String value) {
-        map.put(key, value);
+    public synchronized <T> void put(@NonNull String key, @Nullable T value) {
+        cachedObjects.put(key, new CacheObject<>(value));
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public synchronized String getString(@NonNull String key, @Nullable String defaultValue) {
-        return map.containsKey(key) ? (String) map.get(key) : defaultValue;
-    }
-
-    @Override
-    public synchronized void putInteger(@NonNull String key, @Nullable Integer value) {
-        map.put(key, value);
-    }
-
-    @Override
-    public synchronized Integer getInteger(@NonNull String key, @Nullable Integer defaultValue) {
-        return map.containsKey(key) ? (Integer) map.get(key) : defaultValue;
-    }
-
-    @Override
-    public synchronized void putLong(@NonNull String key, @Nullable Long value) {
-        map.put(key, value);
-    }
-
-    @Override
-    public synchronized Long getLong(@NonNull String key, @Nullable Long defaultValue) {
-        return map.containsKey(key) ? (Long) map.get(key) : defaultValue;
-    }
-
-    @Override
-    public synchronized void putDouble(@NonNull String key, @Nullable Double value) {
-        map.put(key, value);
-    }
-
-    @Override
-    public synchronized Double getDouble(@NonNull String key, @Nullable Double defaultValue) {
-        return map.containsKey(key) ? (Double) map.get(key) : defaultValue;
-    }
-
-    @Override
-    public synchronized void putBoolean(@NonNull String key, @Nullable Boolean value) {
-        map.put(key, value);
-    }
-
-    @Override
-    public synchronized Boolean getBoolean(@NonNull String key, @Nullable Boolean defaultValue) {
-        return map.containsKey(key) ? (Boolean) map.get(key) : defaultValue;
+    public synchronized <T> CacheObject<T> get(@NonNull String key) {
+        CacheObject<T> object = cachedObjects.get(key);
+        return (object == null) ? new NullableCacheObject<>() : object;
     }
 }
