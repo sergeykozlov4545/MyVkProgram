@@ -60,7 +60,8 @@ public class FriendsFragmentPresenterImpl
             public void onSuccessful(@NonNull List<User> data) {
                 LocalCacheManager.getInstance()
                         .put(CachKey.FriendsFragment.FIRST_VISIBLE, Boolean.FALSE);
-                // TODO: 26.06.18 Сохраняем в кэш
+                LocalCacheManager.getInstance()
+                        .put(CachKey.FriendsFragment.ITEMS_DATA, data);
 
                 friendsLoaded(data);
             }

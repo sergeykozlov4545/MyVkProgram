@@ -13,6 +13,8 @@ import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants;
 import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants.Url.Params.PhotosQuery;
 import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants.Url.Params.Value;
 
+import java.util.List;
+
 public class PhotosDataManager implements DataManager<Photo> {
 
     @Override
@@ -21,16 +23,28 @@ public class PhotosDataManager implements DataManager<Photo> {
                 .get(CachKey.PhotosFragment.FIRST_VISIBLE);
 
         if (!cacheObject.is(Boolean.class)) {
-            callbackLoadData.onStartLoadData();
-
-            PhotosQueryParams params = new PhotosQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);
-            params.setOwnerId(Constants.MOCK_USER_ID);
-            params.setAlbumType(PhotosQuery.Value.ALBUM_PROFILE);
-
-            new PhotosServiceManager(params)
-                    .loadData(new RetrofitCallback<>(callbackLoadData));
+            loadData(callbackLoadData);
         } else {
-            // TODO: 26.06.18 Берем из кеша
+            CacheObject<List<Photo>> dataCacheObject = LocalCacheManager.getInstance()
+                    .get(CachKey.PhotosFragment.ITEMS_DATA);
+
+            if (!dataCacheObject.is(List.class)) {
+                loadData(callbackLoadData);
+            } else {
+                callbackLoadData.onSuccessful(dataCacheObject.getValue());
+            }
         }
+    }
+
+    @Override
+    public void loadData(@NonNull CallbackLoadData<Photo> callbackLoadData) {
+        callbackLoadData.onStartLoadData();
+
+        PhotosQueryParams params = new PhotosQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);
+        params.setOwnerId(Constants.MOCK_USER_ID);
+        params.setAlbumType(PhotosQuery.Value.ALBUM_PROFILE);
+
+        new PhotosServiceManager(params)
+                .loadData(new RetrofitCallback<>(callbackLoadData));
     }
 }

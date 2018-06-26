@@ -12,6 +12,8 @@ import com.example.sergey.myvkprogram.model.retrofit.QueryParams.GroupsQueryPara
 import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants;
 import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants.Url.Params.Value;
 
+import java.util.List;
+
 public class GroupsDataManager implements DataManager<Group> {
 
     @Override
@@ -20,15 +22,27 @@ public class GroupsDataManager implements DataManager<Group> {
                 .get(CachKey.GroupsFragment.FIRST_VISIBLE);
 
         if (!cacheObject.is(Boolean.class)) {
-            callbackLoadData.onStartLoadData();
-
-            GroupsQueryParams params = new GroupsQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);
-            params.setUserId(Constants.MOCK_USER_ID);
-
-            new GroupsServiceManager(params)
-                    .loadData(new RetrofitCallback<>(callbackLoadData));
+            loadData(callbackLoadData);
         } else {
-            // TODO: 26.06.18 Берем из кеша
+            CacheObject<List<Group>> dataCacheObject = LocalCacheManager.getInstance()
+                    .get(CachKey.GroupsFragment.ITEMS_DATA);
+
+            if (!dataCacheObject.is(List.class)) {
+                loadData(callbackLoadData);
+            } else {
+                callbackLoadData.onSuccessful(dataCacheObject.getValue());
+            }
         }
+    }
+
+    @Override
+    public void loadData(@NonNull CallbackLoadData<Group> callbackLoadData) {
+        callbackLoadData.onStartLoadData();
+
+        GroupsQueryParams params = new GroupsQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);
+        params.setUserId(Constants.MOCK_USER_ID);
+
+        new GroupsServiceManager(params)
+                .loadData(new RetrofitCallback<>(callbackLoadData));
     }
 }

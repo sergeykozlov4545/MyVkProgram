@@ -12,6 +12,8 @@ import com.example.sergey.myvkprogram.model.retrofit.QueryParams.VideosQueryPara
 import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants;
 import com.example.sergey.myvkprogram.model.retrofit.ServiceApi.Constants.Url.Params.Value;
 
+import java.util.List;
+
 public class VideosDataManager implements DataManager<Video> {
 
     @Override
@@ -20,15 +22,27 @@ public class VideosDataManager implements DataManager<Video> {
                 .get(CachKey.VideosFragment.FIRST_VISIBLE);
 
         if (!cacheObject.is(Boolean.class)) {
-            callbackLoadData.onStartLoadData();
-
-            VideosQueryParams params = new VideosQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);
-            params.setOwnerId(Constants.MOCK_USER_ID);
-
-            new VideosServiceManager(params)
-                    .loadData(new RetrofitCallback<>(callbackLoadData));
+            loadData(callbackLoadData);
         } else {
-            // TODO: 26.06.18 Берем из кеша
+            CacheObject<List<Video>> dataCacheObject = LocalCacheManager.getInstance()
+                    .get(CachKey.VideosFragment.ITEMS_DATA);
+
+            if (!dataCacheObject.is(List.class)) {
+                loadData(callbackLoadData);
+            } else {
+                callbackLoadData.onSuccessful(dataCacheObject.getValue());
+            }
         }
+    }
+
+    @Override
+    public void loadData(@NonNull CallbackLoadData<Video> callbackLoadData) {
+        callbackLoadData.onStartLoadData();
+
+        VideosQueryParams params = new VideosQueryParams(Value.ACCESS_TOKEN, Value.VERSION_API);
+        params.setOwnerId(Constants.MOCK_USER_ID);
+
+        new VideosServiceManager(params)
+                .loadData(new RetrofitCallback<>(callbackLoadData));
     }
 }

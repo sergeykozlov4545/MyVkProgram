@@ -60,7 +60,8 @@ public class GroupsFragmentPresenterImpl
             public void onSuccessful(@NonNull List<Group> data) {
                 LocalCacheManager.getInstance()
                         .put(CachKey.GroupsFragment.FIRST_VISIBLE, Boolean.FALSE);
-                // TODO: 26.06.18 Сохраняем в кэш
+                LocalCacheManager.getInstance()
+                        .put(CachKey.GroupsFragment.ITEMS_DATA, data);
 
                 groupsLoaded(data);
             }

@@ -60,7 +60,8 @@ public class VideosFragmentPresenterImpl
             public void onSuccessful(@NonNull List<Video> data) {
                 LocalCacheManager.getInstance()
                         .put(CachKey.VideosFragment.FIRST_VISIBLE, Boolean.FALSE);
-                // TODO: 26.06.18 Сохраняем в кэш
+                LocalCacheManager.getInstance()
+                        .put(CachKey.VideosFragment.ITEMS_DATA, data);
 
                 videosLoaded(data);
             }
