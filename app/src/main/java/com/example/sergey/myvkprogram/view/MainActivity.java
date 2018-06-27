@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.sergey.myvkprogram.R;
 import com.example.sergey.myvkprogram.contracts.MainActivityContract;
 import com.example.sergey.myvkprogram.presenter.main.MainActivityPresenterImpl;
-import com.example.sergey.myvkprogram.view.fragments.AlbumsFragment;
+import com.example.sergey.myvkprogram.view.fragments.PhotosFragment;
 import com.example.sergey.myvkprogram.view.fragments.FriendsFragment;
 import com.example.sergey.myvkprogram.view.fragments.GroupsFragment;
 import com.example.sergey.myvkprogram.view.fragments.VideosFragment;
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity
 
     private MainActivityContract.MainActivityPresenter presenter;
 
-    private int selectedTabId = R.id.albums;
+    private int selectedTabId = R.id.photos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,17 +78,17 @@ public class MainActivity extends AppCompatActivity
 
     private void initData(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            selectedTabId = savedInstanceState.getInt(SELECTED_TAB_ID, R.id.albums);
+            selectedTabId = savedInstanceState.getInt(SELECTED_TAB_ID, R.id.photos);
         }
 
         fragments = new ArrayList<>();
-        fragments.add(new AlbumsFragment());
+        fragments.add(new PhotosFragment());
         fragments.add(new VideosFragment());
         fragments.add(new FriendsFragment());
         fragments.add(new GroupsFragment());
 
         items = new SparseArrayCompat<>();
-        items.put(R.id.albums, 0);
+        items.put(R.id.photos, 0);
         items.put(R.id.videos, 1);
         items.put(R.id.friends, 2);
         items.put(R.id.groups, 3);
