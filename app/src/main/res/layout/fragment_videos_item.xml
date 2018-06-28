@@ -27,7 +27,8 @@
             <ImageView
                 android:id="@+id/photoPreview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:minHeight="200dp" />
 
             <ImageView
                 android:id="@+id/playIcon"
