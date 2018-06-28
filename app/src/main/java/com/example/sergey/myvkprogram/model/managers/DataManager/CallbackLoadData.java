@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface CallbackLoadData<T> {
 
+    void onStartLoadData();
+
     void onSuccessful(@NonNull List<T> data);
 
     void onFailure(@NonNull String message);

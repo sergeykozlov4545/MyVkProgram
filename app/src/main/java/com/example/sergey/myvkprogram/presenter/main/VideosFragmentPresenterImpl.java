@@ -3,6 +3,8 @@ package com.example.sergey.myvkprogram.presenter.main;
 import android.support.annotation.NonNull;
 
 import com.example.sergey.myvkprogram.contracts.VideosFragmentContract;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObjects.CacheKey;
+import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.DataManager.CallbackLoadData;
 import com.example.sergey.myvkprogram.model.managers.DataManager.DataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.Video;
@@ -22,21 +24,7 @@ public class VideosFragmentPresenterImpl
 
     @Override
     public void viewIsReady() {
-        if (getView() != null) {
-            getView().showProgress();
-        }
-
-        dataManager.getData(new CallbackLoadData<Video>() {
-            @Override
-            public void onSuccessful(@NonNull List<Video> data) {
-                videosLoaded(data);
-            }
-
-            @Override
-            public void onFailure(@NonNull String message) {
-                videosErrorLoaded(message);
-            }
-        });
+        loadData();
     }
 
     @Override
@@ -57,5 +45,31 @@ public class VideosFragmentPresenterImpl
             view.hideProgress();
             view.showError(message);
         }
+    }
+
+    private void loadData() {
+        dataManager.getData(new CallbackLoadData<Video>() {
+            @Override
+            public void onStartLoadData() {
+                if (getView() != null) {
+                    getView().showProgress();
+                }
+            }
+
+            @Override
+            public void onSuccessful(@NonNull List<Video> data) {
+                LocalCacheManager.getInstance()
+                        .put(CacheKey.VideosFragment.FIRST_VISIBLE, Boolean.FALSE);
+                LocalCacheManager.getInstance()
+                        .put(CacheKey.VideosFragment.ITEMS_DATA, data);
+
+                videosLoaded(data);
+            }
+
+            @Override
+            public void onFailure(@NonNull String message) {
+                videosErrorLoaded(message);
+            }
+        });
     }
 }
