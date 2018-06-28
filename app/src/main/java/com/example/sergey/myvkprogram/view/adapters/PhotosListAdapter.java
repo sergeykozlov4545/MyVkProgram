@@ -1,196 +1,99 @@
 package com.example.sergey.myvkprogram.view.adapters;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.sergey.myvkprogram.R;
+import com.example.sergey.myvkprogram.glide.GlideApp;
 import com.example.sergey.myvkprogram.model.pojo.object.Photo;
+import com.example.sergey.myvkprogram.model.pojo.object.PhotoSize;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class PhotosListAdapter extends RecyclerView.Adapter<PhotosListAdapter.ViewHolderBase> {
+public class PhotosListAdapter extends RecyclerView.Adapter<PhotosListAdapter.ViewHolder> {
 
-    private static final int YEAR_LAYOUT = android.R.layout.simple_list_item_1;
-    private static final int PHOTO_LAYOUT = R.layout.fragment_photos_list_photo_item;
-
-    private List<ListItem> data = new ArrayList<>();
+    private List<Photo> photos = new ArrayList<>();
 
     @NonNull
     @Override
-    public ViewHolderBase onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(viewType, parent, false);
+                .inflate(R.layout.fragment_photos_list_item, parent, false);
 
-        return (viewType == YEAR_LAYOUT)
-                ? new YearViewHolder(view)
-                : new PhotoViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolderBase holder, int position) {
-        if (position >= data.size()) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        if (position >= photos.size()) {
             return;
         }
 
-        holder.bindViewHolder(data.get(position));
+        holder.bindViewHolder(photos.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position >= data.size()) {
-            return YEAR_LAYOUT;
-        }
-
-        return (data.get(position).getItemType() == ListItemType.YEAR) ? YEAR_LAYOUT : PHOTO_LAYOUT;
+        return photos.size();
     }
 
     public void updateData(@NonNull List<Photo> photos) {
-        this.data.clear();
-        this.data.addAll(getListItems(photos));
+        this.photos.clear();
+        this.photos.addAll(photos);
         notifyDataSetChanged();
     }
 
-    @NonNull
-    private List<ListItem> getListItems(@NonNull List<Photo> photos) {
-        Map<Integer, List<Photo>> map = new HashMap<>();
-
-        for (Photo photo : photos) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(photo.getDate());
-            int year = calendar.get(Calendar.YEAR);
-
-            List<Photo> groupPhotos = map.get(year);
-            if (groupPhotos == null) {
-                groupPhotos = new ArrayList<>();
-                map.put(year, groupPhotos);
-            }
-
-            groupPhotos.add(photo);
-        }
-
-        List<Integer> years = new ArrayList<>(map.keySet());
-        Collections.sort(years, (o1, o2) -> Integer.compare(o2, o1));
-
-        for (List<Photo> items : map.values()) {
-            Collections.sort(items, (o1, o2) -> Long.compare(o2.getDate(), o1.getDate()));
-        }
-
-        List<ListItem> listItems = new ArrayList<>();
-        for (Integer year : years) {
-            listItems.add(new YearListItem(String.valueOf(year)));
-
-            for (Photo photo : map.get(year)) {
-                listItems.add(new PhotoListItem(photo));
-            }
-        }
-
-        return listItems;
-    }
-
-    abstract class ViewHolderBase extends RecyclerView.ViewHolder {
-
-        ViewHolderBase(View itemView) {
-            super(itemView);
-        }
-
-        public abstract void bindViewHolder(@NonNull ListItem item);
-    }
-
-    class YearViewHolder extends ViewHolderBase {
-
-        private TextView yearView;
-
-        YearViewHolder(View itemView) {
-            super(itemView);
-
-            yearView = itemView.findViewById(android.R.id.text1);
-        }
-
-        @Override
-        public void bindViewHolder(@NonNull ListItem item) {
-            yearView.setText(((YearListItem) item).getYear());
-        }
-    }
-
-    class PhotoViewHolder extends ViewHolderBase {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView photoView;
 
-        PhotoViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
             photoView = itemView.findViewById(R.id.photo);
         }
 
-        @Override
-        public void bindViewHolder(@NonNull ListItem item) {
-            photoView.setVisibility(View.GONE);
-        }
-    }
+        void bindViewHolder(@NonNull Photo photo) {
+            List<PhotoSize> sizes = photo.getSizes();
+            PhotoSize photoSize = getMaxGoodPhotoUrl(sizes);
 
-    private enum ListItemType {
-        YEAR,
-        PHOTO
-    }
-
-    private interface ListItem {
-        @NonNull
-        ListItemType getItemType();
-    }
-
-    private class YearListItem implements ListItem {
-
-        private String year;
-
-        public YearListItem(@NonNull String year) {
-            this.year = year;
+            if (isValidPhotoSize(photoSize)) {
+                GlideApp.with(itemView.getContext())
+                        .load(photoSize.getUrl())
+                        .placeholder(R.drawable.ic_placeholder_grey)
+                        .override(photoSize.getWidth(), photoSize.getHeight())
+                        .into(photoView);
+            }
         }
 
-        @NonNull
-        @Override
-        public ListItemType getItemType() {
-            return ListItemType.YEAR;
+        @Nullable
+        private PhotoSize getMaxGoodPhotoUrl(@NonNull List<PhotoSize> sizes) {
+            List<PhotoSize> sortedSizes = new ArrayList<>(sizes);
+            Collections.sort(sortedSizes, (ps1, ps2) -> ps2.getType().compareTo(ps1.getType()));
+
+            for (int i = 0; i < sortedSizes.size(); i++) {
+                PhotoSize photoSize = sortedSizes.get(i);
+                if (isValidPhotoSize(photoSize)) {
+                    return photoSize;
+                }
+            }
+
+            return null;
         }
 
-        @NonNull
-        public String getYear() {
-            return year;
-        }
-    }
-
-    private class PhotoListItem implements ListItem {
-
-        private Photo photo;
-
-        public PhotoListItem(@NonNull Photo photo) {
-            this.photo = photo;
-        }
-
-        @NonNull
-        @Override
-        public ListItemType getItemType() {
-            return ListItemType.PHOTO;
-        }
-
-        @NonNull
-        public Photo getPhoto() {
-            return photo;
+        private boolean isValidPhotoSize(@Nullable PhotoSize photoSize) {
+            return photoSize != null
+                    && !TextUtils.isEmpty(photoSize.getType())
+                    && !TextUtils.isEmpty(photoSize.getUrl());
         }
     }
 }

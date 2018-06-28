@@ -1,5 +1,7 @@
 package com.example.sergey.myvkprogram.model.pojo.object;
 
+import android.support.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 public class PhotoSize {
@@ -16,10 +18,12 @@ public class PhotoSize {
     @SerializedName("height")
     private int height;
 
+    @Nullable
     public String getType() {
         return type;
     }
 
+    @Nullable
     public String getUrl() {
         return url;
     }

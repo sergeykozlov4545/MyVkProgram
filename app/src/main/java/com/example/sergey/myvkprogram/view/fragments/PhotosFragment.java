@@ -3,8 +3,8 @@ package com.example.sergey.myvkprogram.view.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +36,9 @@ public class PhotosFragment extends BaseFragment implements PhotosFragmentContra
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         addView(R.layout.fragment_photos);
@@ -73,7 +75,10 @@ public class PhotosFragment extends BaseFragment implements PhotosFragmentContra
         content = getContentView().findViewById(R.id.content);
 
         photosListView = content.findViewById(R.id.photosList);
-        photosListView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        photosListView.setHasFixedSize(true);
+
+        photosListView.setLayoutManager(
+                new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
 
         photosListAdapter = new PhotosListAdapter();
         photosListView.setAdapter(photosListAdapter);
