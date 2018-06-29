@@ -3,5 +3,6 @@
     android:id="@+id/photo"
     android:layout_width="wrap_content"
     android:layout_height="200dp"
-    android:layout_margin="2dp"
+    android:layout_margin="1dp"
+    android:contentDescription="@null"
     android:scaleType="centerCrop" />

@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.sergey.myvkprogram.R;
 import com.example.sergey.myvkprogram.glide.GlideApp;
 import com.example.sergey.myvkprogram.model.pojo.object.Photo;
@@ -69,6 +71,8 @@ public class PhotosListAdapter extends RecyclerView.Adapter<PhotosListAdapter.Vi
             if (isValidPhotoSize(photoSize)) {
                 GlideApp.with(itemView.getContext())
                         .load(photoSize.getUrl())
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                        .format(DecodeFormat.PREFER_RGB_565)
                         .placeholder(R.drawable.ic_placeholder_grey)
                         .override(photoSize.getWidth(), photoSize.getHeight())
                         .into(photoView);
