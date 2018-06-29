@@ -24,7 +24,7 @@ public interface Constants {
             }
 
             interface Value {
-                String ACCESS_TOKEN = "1f6891aeb62aad9fc3de3ead3acdb1e44716325bba9d20a5bb50e953f4844a23c8efea9c1ce2b5ae8b28b";
+                String ACCESS_TOKEN = "81c8124ca93c70f5bbbcdb676955ddb2553d6b12ea99708d9baece8736bf13ac6388e710476a283eb5503";
                 String VERSION_API = "5.80";
             }
 

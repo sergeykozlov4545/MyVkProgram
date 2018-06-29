@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.sergey.myvkprogram.R;
+import com.example.sergey.myvkprogram.glide.GlideApp;
 import com.example.sergey.myvkprogram.model.pojo.object.Video;
 
 import java.util.ArrayList;
@@ -94,19 +94,18 @@ public class VideosListAdapter extends RecyclerView.Adapter<VideosListAdapter.Vi
         }
 
         private void updatePhotoView(@NonNull Video video) {
-            Context context = itemView.getContext();
-
+            String photoUrl = null;
             if (!TextUtils.isEmpty(video.getBigPhotoUrl())) {
-                Glide.with(context)
-                        .load(video.getBigPhotoUrl())
-                        .into(photoPreview);
+                photoUrl = video.getBigPhotoUrl();
             } else if (!TextUtils.isEmpty(video.getMiddlePhotoUrl())) {
-                Glide.with(context)
-                        .load(video.getMiddlePhotoUrl())
-                        .into(photoPreview);
+                photoUrl = video.getMiddlePhotoUrl();
             } else if (!TextUtils.isEmpty(video.getSmallPhotoUrl())) {
-                Glide.with(context)
-                        .load(video.getSmallPhotoUrl())
+                photoUrl = video.getSmallPhotoUrl();
+            }
+            if (!TextUtils.isEmpty(photoUrl)) {
+                GlideApp.with(itemView.getContext())
+                        .load(photoUrl)
+                        .placeholder(R.drawable.ic_placeholder_black)
                         .into(photoPreview);
             }
 
