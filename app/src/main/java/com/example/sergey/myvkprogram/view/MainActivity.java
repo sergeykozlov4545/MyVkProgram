@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity
     private void showFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.contentContainer, fragment)
                 .commit();
     }
