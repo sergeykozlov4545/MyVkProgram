@@ -31,7 +31,8 @@ ext.versions = [
         retrofit         : "2.4.0",
         okhttp3          : "3.8.0",
         glide            : "4.7.1",
-        roundediImageView: "2.3.0"
+        roundediImageView: "2.3.0",
+        leak_canary      : "1.5.4"
 ]
 
 ext.support = [
@@ -58,6 +59,11 @@ ext.glide = [
 
 
 ext.rounded_image_view = "com.makeramen:roundedimageview:$versions.roundediImageView"
+
+ext.leak_canary = [
+        dImplementation: "com.squareup.leakcanary:leakcanary-android:$versions.leak_canary",
+        rImplementation: "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leak_canary"
+]
 
 repositories {
     mavenCentral()
@@ -89,4 +95,8 @@ dependencies {
 
     // rounded image view
     implementation rounded_image_view
+
+    // LeakCanary
+    debugImplementation leak_canary.dImplementation
+    releaseImplementation leak_canary.rImplementation
 }
