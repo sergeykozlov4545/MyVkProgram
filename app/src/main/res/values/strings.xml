@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">MyVkProgram</string>
 
-    <string name="activity_main_tab_albums">Фото</string>
-    <string name="activity_main_tab_videos">Видео</string>
+    <string name="activity_main_tab_albums">Фотографии</string>
+    <string name="activity_main_tab_videos">Видеозаписи</string>
     <string name="activity_main_tab_friends">Друзья</string>
     <string name="activity_main_tab_groups">Группы</string>
 
