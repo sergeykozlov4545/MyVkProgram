@@ -14,5 +14,7 @@
     <string name="fragment_groups_type_event">Событие</string>
 
     <string name="fragment_videos_views">Просмотров &#x2012; %1$s</string>
+    <string name="fragment_videos_show_description">Показать описание</string>
+    <string name="fragment_videos_hide_description">Скрыть описание</string>
 
 </resources>

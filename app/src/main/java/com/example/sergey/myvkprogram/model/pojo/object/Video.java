@@ -10,6 +10,9 @@ public class Video {
     @SerializedName("title")
     private String title;
 
+    @SerializedName("description")
+    private String description;
+
     @SerializedName("duration")
     private long duration;
 
@@ -43,6 +46,10 @@ public class Video {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public long getDuration() {
