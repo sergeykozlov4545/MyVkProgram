@@ -195,7 +195,6 @@ public class VideosListAdapter
                     descriptionManager.addShowedDescription(position);
                 }
 
-                // TODO: 04.07.18 Добавить анимацию
                 descriptionTextView.setVisibility(getDescriptionTextViewVisibility(position));
                 updateDescriptionIconContainer(position);
             });
