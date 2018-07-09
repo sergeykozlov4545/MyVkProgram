@@ -1,82 +1,39 @@
 package com.example.sergey.myvkprogram.view.fragments;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.example.sergey.myvkprogram.R;
 import com.example.sergey.myvkprogram.model.managers.DataManager.PhotosDataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.Photo;
+import com.example.sergey.myvkprogram.presenter.base.Presenter;
 import com.example.sergey.myvkprogram.presenter.main.PhotosFragmentPresenterImpl;
-import com.example.sergey.myvkprogram.view.adapters.ListAdapter;
+import com.example.sergey.myvkprogram.view.adapters.BaseListAdapter;
 import com.example.sergey.myvkprogram.view.adapters.PhotosListAdapter;
+import com.example.sergey.myvkprogram.view.interfaces.FragmentView;
 
-public class PhotosFragment extends BaseListFragment<Photo> {
+public class PhotosFragment extends SwipeRefreshListFragment<Photo> {
 
-    private PhotosFragmentPresenterImpl presenter;
-
-    private RecyclerView photosListView;
-    private PhotosListAdapter photosListAdapter;
-
+    @NonNull
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        presenter = new PhotosFragmentPresenterImpl(new PhotosDataManager());
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-
-        addView(R.layout.fragment_photos);
-        initViews(view);
-
-        presenter.attachView(this);
-        presenter.viewIsReady();
-
-        return view;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-        presenter.detachView();
+    public Presenter<FragmentView<Photo>> getPresenter() {
+        return new PhotosFragmentPresenterImpl(new PhotosDataManager());
     }
 
     @NonNull
     @Override
-    protected ListAdapter<Photo> getListAdapter() {
-        return photosListAdapter;
+    protected BaseListAdapter<Photo> getListAdapter() {
+        return new PhotosListAdapter();
     }
 
     @NonNull
     @Override
-    protected RecyclerView getListView() {
-        return photosListView;
+    protected RecyclerView.LayoutManager getLayoutManager() {
+        return new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
     }
 
-    private void initViews(@Nullable View view) {
-        if (view == null) {
-            return;
-        }
-
-        photosListView = view.findViewById(R.id.photosList);
-        photosListView.setHasFixedSize(true);
-
-        photosListView.setLayoutManager(
-                new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
-
-        photosListAdapter = new PhotosListAdapter();
-        photosListView.setAdapter(photosListAdapter);
+    @Override
+    protected boolean isWithDividers() {
+        return false;
     }
 }
