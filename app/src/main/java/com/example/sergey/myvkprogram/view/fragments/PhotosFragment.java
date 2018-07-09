@@ -7,7 +7,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import com.example.sergey.myvkprogram.model.managers.DataManager.PhotosDataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.Photo;
 import com.example.sergey.myvkprogram.presenter.base.Presenter;
-import com.example.sergey.myvkprogram.presenter.main.PhotosFragmentPresenterImpl;
+import com.example.sergey.myvkprogram.presenter.main.PhotosFragmentPresenter;
 import com.example.sergey.myvkprogram.view.adapters.BaseListAdapter;
 import com.example.sergey.myvkprogram.view.adapters.PhotosListAdapter;
 import com.example.sergey.myvkprogram.view.interfaces.FragmentView;
@@ -17,7 +17,7 @@ public class PhotosFragment extends SwipeRefreshListFragment<Photo> {
     @NonNull
     @Override
     public Presenter<FragmentView<Photo>> getPresenter() {
-        return new PhotosFragmentPresenterImpl(new PhotosDataManager());
+        return new PhotosFragmentPresenter(new PhotosDataManager());
     }
 
     @NonNull

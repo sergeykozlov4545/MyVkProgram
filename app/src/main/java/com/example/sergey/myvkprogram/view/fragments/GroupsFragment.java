@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import com.example.sergey.myvkprogram.model.managers.DataManager.GroupsDataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.Group;
 import com.example.sergey.myvkprogram.presenter.base.Presenter;
-import com.example.sergey.myvkprogram.presenter.main.GroupsFragmentPresenterImpl;
+import com.example.sergey.myvkprogram.presenter.main.GroupsFragmentPresenter;
 import com.example.sergey.myvkprogram.view.adapters.BaseListAdapter;
 import com.example.sergey.myvkprogram.view.adapters.GroupsListAdapter;
 import com.example.sergey.myvkprogram.view.interfaces.FragmentView;
@@ -17,7 +17,7 @@ public class GroupsFragment extends SwipeRefreshListFragment<Group> {
     @NonNull
     @Override
     protected Presenter<FragmentView<Group>> getPresenter() {
-        return new GroupsFragmentPresenterImpl(new GroupsDataManager());
+        return new GroupsFragmentPresenter(new GroupsDataManager());
     }
 
     @NonNull

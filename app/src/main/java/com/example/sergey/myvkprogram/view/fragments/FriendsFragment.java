@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import com.example.sergey.myvkprogram.model.managers.DataManager.FriendsDataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.User;
 import com.example.sergey.myvkprogram.presenter.base.Presenter;
-import com.example.sergey.myvkprogram.presenter.main.FriendsFragmentPresenterImpl;
+import com.example.sergey.myvkprogram.presenter.main.FriendsFragmentPresenter;
 import com.example.sergey.myvkprogram.view.adapters.BaseListAdapter;
 import com.example.sergey.myvkprogram.view.adapters.FriendsListAdapter;
 import com.example.sergey.myvkprogram.view.interfaces.FragmentView;
@@ -17,7 +17,7 @@ public class FriendsFragment extends SwipeRefreshListFragment<User> {
     @NonNull
     @Override
     protected Presenter<FragmentView<User>> getPresenter() {
-        return new FriendsFragmentPresenterImpl(new FriendsDataManager());
+        return new FriendsFragmentPresenter(new FriendsDataManager());
     }
 
     @NonNull

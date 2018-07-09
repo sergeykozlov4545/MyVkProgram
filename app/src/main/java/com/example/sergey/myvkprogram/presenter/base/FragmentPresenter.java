@@ -12,4 +12,6 @@ public interface FragmentPresenter<V extends FragmentView, D> extends Presenter<
 
     void failureLoadData(@NonNull String message);
 
+    void refreshedData();
+
 }

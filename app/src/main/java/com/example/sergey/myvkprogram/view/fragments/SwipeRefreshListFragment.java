@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.sergey.myvkprogram.R;
+import com.example.sergey.myvkprogram.presenter.base.FragmentPresenter;
 import com.example.sergey.myvkprogram.presenter.base.Presenter;
 import com.example.sergey.myvkprogram.view.adapters.BaseListAdapter;
 import com.example.sergey.myvkprogram.view.interfaces.FragmentView;
@@ -94,16 +95,17 @@ public abstract class SwipeRefreshListFragment<Data> extends Fragment implements
     @NonNull
     protected abstract Presenter<FragmentView<Data>> getPresenter();
 
-    protected void setOnRefreshContentListener(SwipeRefreshLayout.OnRefreshListener listener) {
-        swipeRefreshLayout.setOnRefreshListener(listener);
-    }
-
     private void initView(View view) {
         contentFragment = view.findViewById(R.id.contentFragment);
         progressBar = view.findViewById(R.id.progress);
 
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            if (presenter instanceof FragmentPresenter) {
+                ((FragmentPresenter) presenter).refreshedData();
+            }
+        });
 
         dataRecyclerView = view.findViewById(R.id.list);
 
