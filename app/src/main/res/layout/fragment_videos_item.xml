@@ -77,6 +77,53 @@
             tools:text="123 просмотра" />
 
         <LinearLayout
+            android:id="@+id/descriptionContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/descriptionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="16sp"
+                android:visibility="gone"
+                tools:text="Описание"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/descriptionIconContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="end|center_vertical"
+                android:minHeight="48dp">
+
+                <TextView
+                    android:id="@+id/descriptionIconLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@android:color/secondary_text_light_nodisable"
+                    android:textSize="16sp"
+                    tools:text="Показать описание" />
+
+                <ImageView
+                    android:id="@+id/descriptionIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
