@@ -12,7 +12,7 @@ import com.example.sergey.myvkprogram.view.holders.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>> {
+public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>> implements ListAdapter<T> {
 
     @NonNull
     private List<T> values = new ArrayList<>();
@@ -40,6 +40,7 @@ public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<BaseViewHo
         return values.size();
     }
 
+    @Override
     public void updateData(@NonNull List<T> values) {
         this.values.clear();
         this.values.addAll(values);

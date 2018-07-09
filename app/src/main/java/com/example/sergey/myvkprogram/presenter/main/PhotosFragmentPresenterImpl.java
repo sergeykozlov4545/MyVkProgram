@@ -2,19 +2,18 @@ package com.example.sergey.myvkprogram.presenter.main;
 
 import android.support.annotation.NonNull;
 
-import com.example.sergey.myvkprogram.contracts.PhotosFragmentContract;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObjects.CacheKey;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.DataManager.CallbackLoadData;
 import com.example.sergey.myvkprogram.model.managers.DataManager.DataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.Photo;
-import com.example.sergey.myvkprogram.presenter.base.BasePresenter;
+import com.example.sergey.myvkprogram.presenter.base.BaseFragmentPresenter;
+import com.example.sergey.myvkprogram.view.interfaces.FragmentView;
 
 import java.util.List;
 
 public class PhotosFragmentPresenterImpl
-        extends BasePresenter<PhotosFragmentContract.PhotosFragmentView>
-        implements PhotosFragmentContract.PhotosFragmentPresenter {
+        extends BaseFragmentPresenter<FragmentView<Photo>, Photo> {
 
     private DataManager<Photo> dataManager;
 
@@ -25,26 +24,6 @@ public class PhotosFragmentPresenterImpl
     @Override
     public void viewIsReady() {
         loadData();
-    }
-
-    @Override
-    public void photosLoaded(@NonNull List<Photo> photos) {
-        PhotosFragmentContract.PhotosFragmentView view = getView();
-
-        if (view != null) {
-            view.hideProgress();
-            view.showPhotos(photos);
-        }
-    }
-
-    @Override
-    public void photosErrorLoaded(@NonNull String message) {
-        PhotosFragmentContract.PhotosFragmentView view = getView();
-
-        if (view != null) {
-            view.hideProgress();
-            view.showError(message);
-        }
     }
 
     private void loadData() {
@@ -63,12 +42,12 @@ public class PhotosFragmentPresenterImpl
                 LocalCacheManager.getInstance()
                         .put(CacheKey.PhotosFragment.ITEMS_DATA, data);
 
-                photosLoaded(data);
+                successLoadData(data);
             }
 
             @Override
             public void onFailure(@NonNull String message) {
-                photosErrorLoaded(message);
+                failureLoadData(message);
             }
         });
     }

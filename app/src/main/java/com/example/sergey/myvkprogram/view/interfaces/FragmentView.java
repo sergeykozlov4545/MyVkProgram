@@ -1,9 +1,12 @@
 package com.example.sergey.myvkprogram.view.interfaces;
 
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
-public interface FragmentView extends View {
+import java.util.List;
+
+public interface FragmentView<D> extends View {
 
     void showProgress();
 
@@ -12,5 +15,9 @@ public interface FragmentView extends View {
     ViewGroup getContentView();
 
     void addView(@LayoutRes int layoutId);
+
+    void showData(@NonNull List<D> data);
+
+    void showError(@NonNull String message);
 
 }

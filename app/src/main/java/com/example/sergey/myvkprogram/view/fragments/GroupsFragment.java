@@ -9,25 +9,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.sergey.myvkprogram.R;
-import com.example.sergey.myvkprogram.contracts.GroupsFragmentContract;
 import com.example.sergey.myvkprogram.model.managers.DataManager.GroupsDataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.Group;
 import com.example.sergey.myvkprogram.presenter.main.GroupsFragmentPresenterImpl;
 import com.example.sergey.myvkprogram.view.adapters.GroupsListAdapter;
+import com.example.sergey.myvkprogram.view.adapters.ListAdapter;
 
-import java.util.List;
-
-public class GroupsFragment extends BaseFragment implements GroupsFragmentContract.GroupsFragmentView {
-
-    private View content;
+public class GroupsFragment extends BaseListFragment<Group> {
 
     private RecyclerView groupsListView;
     private GroupsListAdapter groupsListAdapter;
 
-    private GroupsFragmentContract.GroupsFragmentPresenter presenter;
+    private GroupsFragmentPresenterImpl presenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +37,7 @@ public class GroupsFragment extends BaseFragment implements GroupsFragmentContra
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         addView(R.layout.fragment_groups);
-        initViews();
+        initViews(view);
 
         presenter.attachView(this);
         presenter.viewIsReady();
@@ -57,23 +52,24 @@ public class GroupsFragment extends BaseFragment implements GroupsFragmentContra
         presenter.detachView();
     }
 
+    @NonNull
     @Override
-    public void showGroups(@NonNull List<Group> groups) {
-        if (groupsListAdapter != null) {
-            groupsListAdapter.updateData(groups);
+    protected ListAdapter<Group> getListAdapter() {
+        return groupsListAdapter;
+    }
+
+    @NonNull
+    @Override
+    protected RecyclerView getListView() {
+        return groupsListView;
+    }
+
+    private void initViews(@Nullable View view) {
+        if (view == null) {
+            return;
         }
-        content.setVisibility(View.VISIBLE);
-    }
 
-    @Override
-    public void showError(@NonNull String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    private void initViews() {
-        content = getContentView().findViewById(R.id.content);
-
-        groupsListView = content.findViewById(R.id.groupsList);
+        groupsListView = view.findViewById(R.id.groupsList);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         groupsListView.setLayoutManager(layoutManager);

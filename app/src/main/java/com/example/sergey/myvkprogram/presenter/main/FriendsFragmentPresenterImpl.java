@@ -2,19 +2,18 @@ package com.example.sergey.myvkprogram.presenter.main;
 
 import android.support.annotation.NonNull;
 
-import com.example.sergey.myvkprogram.contracts.FriendsFragmentContract;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObjects.CacheKey;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.DataManager.CallbackLoadData;
 import com.example.sergey.myvkprogram.model.managers.DataManager.DataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.User;
-import com.example.sergey.myvkprogram.presenter.base.BasePresenter;
+import com.example.sergey.myvkprogram.presenter.base.BaseFragmentPresenter;
+import com.example.sergey.myvkprogram.view.interfaces.FragmentView;
 
 import java.util.List;
 
 public class FriendsFragmentPresenterImpl
-        extends BasePresenter<FriendsFragmentContract.FriendsFragmentView>
-        implements FriendsFragmentContract.FriendsFragmentPresenter {
+        extends BaseFragmentPresenter<FragmentView<User>, User> {
 
     private DataManager<User> dataManager;
 
@@ -25,26 +24,6 @@ public class FriendsFragmentPresenterImpl
     @Override
     public void viewIsReady() {
         loadData();
-    }
-
-    @Override
-    public void friendsLoaded(@NonNull List<User> users) {
-        FriendsFragmentContract.FriendsFragmentView view = getView();
-
-        if (view != null) {
-            view.hideProgress();
-            view.showFriends(users);
-        }
-    }
-
-    @Override
-    public void friendsErrorLoaded(@NonNull String message) {
-        FriendsFragmentContract.FriendsFragmentView view = getView();
-
-        if (view != null) {
-            view.hideProgress();
-            view.showError(message);
-        }
     }
 
     private void loadData() {
@@ -63,12 +42,12 @@ public class FriendsFragmentPresenterImpl
                 LocalCacheManager.getInstance()
                         .put(CacheKey.FriendsFragment.ITEMS_DATA, data);
 
-                friendsLoaded(data);
+                successLoadData(data);
             }
 
             @Override
             public void onFailure(@NonNull String message) {
-                friendsErrorLoaded(message);
+                failureLoadData(message);
             }
         });
     }

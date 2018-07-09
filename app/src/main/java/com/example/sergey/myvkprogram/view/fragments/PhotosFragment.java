@@ -8,21 +8,17 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.sergey.myvkprogram.R;
-import com.example.sergey.myvkprogram.contracts.PhotosFragmentContract;
 import com.example.sergey.myvkprogram.model.managers.DataManager.PhotosDataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.Photo;
 import com.example.sergey.myvkprogram.presenter.main.PhotosFragmentPresenterImpl;
+import com.example.sergey.myvkprogram.view.adapters.ListAdapter;
 import com.example.sergey.myvkprogram.view.adapters.PhotosListAdapter;
 
-import java.util.List;
+public class PhotosFragment extends BaseListFragment<Photo> {
 
-public class PhotosFragment extends BaseFragment implements PhotosFragmentContract.PhotosFragmentView {
-
-    private View content;
-    private PhotosFragmentContract.PhotosFragmentPresenter presenter;
+    private PhotosFragmentPresenterImpl presenter;
 
     private RecyclerView photosListView;
     private PhotosListAdapter photosListAdapter;
@@ -42,7 +38,7 @@ public class PhotosFragment extends BaseFragment implements PhotosFragmentContra
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         addView(R.layout.fragment_photos);
-        initViews();
+        initViews(view);
 
         presenter.attachView(this);
         presenter.viewIsReady();
@@ -57,24 +53,24 @@ public class PhotosFragment extends BaseFragment implements PhotosFragmentContra
         presenter.detachView();
     }
 
+    @NonNull
     @Override
-    public void showPhotos(@NonNull List<Photo> photos) {
-        if (photosListAdapter != null) {
-            photosListAdapter.updateData(photos);
+    protected ListAdapter<Photo> getListAdapter() {
+        return photosListAdapter;
+    }
+
+    @NonNull
+    @Override
+    protected RecyclerView getListView() {
+        return photosListView;
+    }
+
+    private void initViews(@Nullable View view) {
+        if (view == null) {
+            return;
         }
 
-        content.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void showError(@NonNull String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    private void initViews() {
-        content = getContentView().findViewById(R.id.content);
-
-        photosListView = content.findViewById(R.id.photosList);
+        photosListView = view.findViewById(R.id.photosList);
         photosListView.setHasFixedSize(true);
 
         photosListView.setLayoutManager(

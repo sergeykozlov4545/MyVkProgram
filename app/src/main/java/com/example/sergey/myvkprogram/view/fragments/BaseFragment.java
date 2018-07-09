@@ -9,11 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.sergey.myvkprogram.R;
 import com.example.sergey.myvkprogram.view.interfaces.FragmentView;
 
-public class BaseFragment extends Fragment implements FragmentView {
+public abstract class BaseFragment<D> extends Fragment implements FragmentView<D> {
 
     private FrameLayout contentFragment;
     private ProgressBar progressBar;
@@ -50,5 +51,10 @@ public class BaseFragment extends Fragment implements FragmentView {
         View view = LayoutInflater.from(getContext())
                 .inflate(layoutId, contentView, false);
         contentView.addView(view);
+    }
+
+    @Override
+    public void showError(@NonNull String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

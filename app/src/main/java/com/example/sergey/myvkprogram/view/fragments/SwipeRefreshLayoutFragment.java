@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.sergey.myvkprogram.R;
 
-public class SwipeRefreshLayoutFragment extends BaseFragment {
+public abstract class SwipeRefreshLayoutFragment extends BaseFragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 

@@ -9,22 +9,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.sergey.myvkprogram.R;
-import com.example.sergey.myvkprogram.contracts.FriendsFragmentContract;
 import com.example.sergey.myvkprogram.model.managers.DataManager.FriendsDataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.User;
 import com.example.sergey.myvkprogram.presenter.main.FriendsFragmentPresenterImpl;
 import com.example.sergey.myvkprogram.view.adapters.FriendsListAdapter;
+import com.example.sergey.myvkprogram.view.adapters.ListAdapter;
 
-import java.util.List;
+public class FriendsFragment extends BaseListFragment<User> {
 
-public class FriendsFragment extends BaseFragment implements FriendsFragmentContract.FriendsFragmentView {
-
-    private FriendsFragmentContract.FriendsFragmentPresenter presenter;
-
-    private View content;
+    private FriendsFragmentPresenterImpl presenter;
 
     private RecyclerView friendsListView;
     private FriendsListAdapter friendsListAdapter;
@@ -42,7 +37,7 @@ public class FriendsFragment extends BaseFragment implements FriendsFragmentCont
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         addView(R.layout.fragment_friends);
-        initViews();
+        initViews(view);
 
         presenter.attachView(this);
         presenter.viewIsReady();
@@ -57,23 +52,24 @@ public class FriendsFragment extends BaseFragment implements FriendsFragmentCont
         presenter.detachView();
     }
 
+    @NonNull
     @Override
-    public void showFriends(@NonNull List<User> users) {
-        if (friendsListAdapter != null) {
-            friendsListAdapter.updateData(users);
+    protected ListAdapter<User> getListAdapter() {
+        return friendsListAdapter;
+    }
+
+    @NonNull
+    @Override
+    protected RecyclerView getListView() {
+        return friendsListView;
+    }
+
+    private void initViews(@Nullable View view) {
+        if (view == null) {
+            return;
         }
-        content.setVisibility(View.VISIBLE);
-    }
 
-    @Override
-    public void showError(@NonNull String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    private void initViews() {
-        content = getContentView().findViewById(R.id.content);
-
-        friendsListView = content.findViewById(R.id.friendsList);
+        friendsListView = view.findViewById(R.id.friendsList);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         friendsListView.setLayoutManager(layoutManager);

@@ -2,19 +2,18 @@ package com.example.sergey.myvkprogram.presenter.main;
 
 import android.support.annotation.NonNull;
 
-import com.example.sergey.myvkprogram.contracts.GroupsFragmentContract;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObjects.CacheKey;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.DataManager.CallbackLoadData;
 import com.example.sergey.myvkprogram.model.managers.DataManager.DataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.Group;
-import com.example.sergey.myvkprogram.presenter.base.BasePresenter;
+import com.example.sergey.myvkprogram.presenter.base.BaseFragmentPresenter;
+import com.example.sergey.myvkprogram.view.interfaces.FragmentView;
 
 import java.util.List;
 
 public class GroupsFragmentPresenterImpl
-        extends BasePresenter<GroupsFragmentContract.GroupsFragmentView>
-        implements GroupsFragmentContract.GroupsFragmentPresenter {
+        extends BaseFragmentPresenter<FragmentView<Group>, Group> {
 
     private DataManager<Group> dataManager;
 
@@ -25,26 +24,6 @@ public class GroupsFragmentPresenterImpl
     @Override
     public void viewIsReady() {
         loadData();
-    }
-
-    @Override
-    public void groupsLoaded(@NonNull List<Group> groups) {
-        GroupsFragmentContract.GroupsFragmentView view = getView();
-
-        if (view != null) {
-            view.hideProgress();
-            view.showGroups(groups);
-        }
-    }
-
-    @Override
-    public void groupsErrorLoaded(@NonNull String message) {
-        GroupsFragmentContract.GroupsFragmentView view = getView();
-
-        if (view != null) {
-            view.hideProgress();
-            view.showError(message);
-        }
     }
 
     private void loadData() {
@@ -63,12 +42,12 @@ public class GroupsFragmentPresenterImpl
                 LocalCacheManager.getInstance()
                         .put(CacheKey.GroupsFragment.ITEMS_DATA, data);
 
-                groupsLoaded(data);
+                successLoadData(data);
             }
 
             @Override
             public void onFailure(@NonNull String message) {
-                groupsErrorLoaded(message);
+                failureLoadData(message);
             }
         });
     }

@@ -2,19 +2,18 @@ package com.example.sergey.myvkprogram.presenter.main;
 
 import android.support.annotation.NonNull;
 
-import com.example.sergey.myvkprogram.contracts.VideosFragmentContract;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.CacheObjects.CacheKey;
 import com.example.sergey.myvkprogram.model.managers.CacheManager.LocalCacheManager;
 import com.example.sergey.myvkprogram.model.managers.DataManager.CallbackLoadData;
 import com.example.sergey.myvkprogram.model.managers.DataManager.DataManager;
 import com.example.sergey.myvkprogram.model.pojo.object.Video;
-import com.example.sergey.myvkprogram.presenter.base.BasePresenter;
+import com.example.sergey.myvkprogram.presenter.base.BaseFragmentPresenter;
+import com.example.sergey.myvkprogram.view.interfaces.FragmentView;
 
 import java.util.List;
 
 public class VideosFragmentPresenterImpl
-        extends BasePresenter<VideosFragmentContract.VideosFragmentView>
-        implements VideosFragmentContract.VideosFragmentPresenter {
+        extends BaseFragmentPresenter<FragmentView<Video>, Video> {
 
     private DataManager<Video> dataManager;
 
@@ -25,26 +24,6 @@ public class VideosFragmentPresenterImpl
     @Override
     public void viewIsReady() {
         loadData();
-    }
-
-    @Override
-    public void videosLoaded(@NonNull List<Video> videos) {
-        VideosFragmentContract.VideosFragmentView view = getView();
-
-        if (view != null) {
-            view.hideProgress();
-            view.showVideos(videos);
-        }
-    }
-
-    @Override
-    public void videosErrorLoaded(@NonNull String message) {
-        VideosFragmentContract.VideosFragmentView view = getView();
-
-        if (view != null) {
-            view.hideProgress();
-            view.showError(message);
-        }
     }
 
     private void loadData() {
@@ -63,12 +42,12 @@ public class VideosFragmentPresenterImpl
                 LocalCacheManager.getInstance()
                         .put(CacheKey.VideosFragment.ITEMS_DATA, data);
 
-                videosLoaded(data);
+                successLoadData(data);
             }
 
             @Override
             public void onFailure(@NonNull String message) {
-                videosErrorLoaded(message);
+                failureLoadData(message);
             }
         });
     }
